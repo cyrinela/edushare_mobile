@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Définition des couleurs -->
+    <color name="primaryColor">#4CAF50</color> <!-- Vert -->
+    <color name="secondaryColor">#FF9800</color> <!-- Orange -->
+    <color name="tertiaryColor">#2196F3</color> <!-- Bleu -->
+    <color name="backgroundColor">#F5F5F5</color> <!-- Couleur de fond claire -->
+    <color name="textColorPrimary">#212121</color> <!-- Texte principal en noir/gris foncé -->
+    <color name="textColorSecondary">#757575</color> <!-- Texte secondaire en gris clair -->
+    <color name="buttonTextColor">#FFFFFF</color> <!-- Couleur du texte des boutons en blanc -->
+    <color name="mauve">#8A2BE2</color> <!-- Exemple de couleur mauve -->
+    <color name="blue">#0000FF</color> <!-- Exemple de couleur bleue -->
+    <color name="purple">#8692f7</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="lavender">#8692f7</color>
+</resources>

@@ -1,0 +1,15 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Couleur de fond de la carte -->
+    <solid android:color="@android:color/white" />
+
+    <!-- Coins arrondis -->
+    <corners android:radius="8dp" />
+
+    <!-- Ombre autour de la carte -->
+    <elevation android:radius="4dp" />
+
+    <!-- Bordure de la carte -->
+    <stroke
+        android:color="@color/textColorPrimary"
+        android:width="1dp" />
+</shape>

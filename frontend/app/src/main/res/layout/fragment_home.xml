@@ -1,0 +1,277 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Section de bienvenue -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let's learn together"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_orange_light"
+            android:fontFamily="sans-serif-medium"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center" />
+
+
+        <!-- Image en haut de la page -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/imagehome"
+            android:scaleType="centerCrop"
+            android:contentDescription="Image d'accueil" />
+
+        <!-- Icone de recherche et barre de recherche -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:gravity="end">
+
+            <!-- Icône de recherche -->
+            <ImageView
+                android:id="@+id/icon_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="Icône de recherche"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/tertiaryColor" />
+
+            <!-- Barre de recherche (masquée par défaut) -->
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:hint="Rechercher des ressources..."
+                android:visibility="gone"
+                android:background="@drawable/rounded_background"
+                android:padding="8dp"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/textColorPrimary"
+                android:textColorHint="@color/textColorSecondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"> <!-- Assure que les éléments sont alignés verticalement au centre -->
+
+            <!-- Titre "Ressources" avec couleur mauve -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ressources"
+                android:textSize="20sp"
+                android:textColor="@color/mauve"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="4dp" />
+
+            <!-- Espacement flexible -->
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/> <!-- Ajoute un espacement flexible pour pousser "See All" à droite -->
+
+            <!-- Lien "See All" avec couleur bleue -->
+            <TextView
+                android:id="@+id/see_all_resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See All"
+                android:textSize="14sp"
+                android:textColor="@color/blue"
+            android:layout_gravity="end"
+            android:paddingTop="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingEnd="8dp"/>
+        </LinearLayout>
+
+
+
+        <!-- Section des ressources -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
+
+            <!-- Catégorie 1 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_science" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Science"
+                    android:textColor="@color/textColorPrimary" />
+            </LinearLayout>
+
+            <!-- Catégorie 2 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_math" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mathématiques"
+                    android:textColor="@color/textColorPrimary" />
+            </LinearLayout>
+
+            <!-- Catégorie 3 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_literature" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Littérature"
+                    android:textColor="@color/textColorPrimary" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Section des recommandations -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recommandations"
+            android:textSize="18sp"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/mauve"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- LinearLayout pour afficher les recommandations -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="8dp">
+
+            <!-- Carte de recommandation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_background"
+                android:padding="16dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recommandation : Apprendre à programmer"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColorPrimary"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Publié par: Jean"
+                    android:textSize="14sp"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/textColorSecondary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Un cours qui vous apprend les bases de la programmation avec des exemples concrets."
+                    android:textSize="14sp"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/textColorPrimary" />
+            </LinearLayout>
+
+            <!-- Autre carte de recommandation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_background"
+                android:padding="16dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recommandation : Cours sur l'intelligence artificielle"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColorPrimary"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Publié par: Ali"
+                    android:textSize="14sp"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/textColorSecondary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Un cours approfondi sur l'intelligence artificielle pour les passionnés de technologies avancées."
+                    android:textSize="14sp"
+                    android:paddingTop="8dp"
+                    android:textColor="@color/textColorPrimary" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
