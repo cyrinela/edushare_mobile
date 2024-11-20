@@ -1,5 +1,4 @@
-package iset.dsi.myapplication
-
+package iset.dsi.myapplicationsouhail
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -7,6 +6,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import iset.dsi.myapplication.ApiService
+import iset.dsi.myapplication.LoginResponse
+import iset.dsi.myapplication.MainActivity
+import iset.dsi.myapplication.R
+import iset.dsi.myapplication.RegisterActivity
+import iset.dsi.myapplication.UserLogin
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
