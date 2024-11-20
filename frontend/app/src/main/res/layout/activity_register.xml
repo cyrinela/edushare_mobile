@@ -1,9 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/login_bk">
+
+    <!-- Titre -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Créer un compte"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple"
+        android:layout_marginBottom="24dp" />
 
     <!-- Champ Nom Complet -->
     <EditText
@@ -11,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nom complet"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:background="@drawable/custom_edittext"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
 
     <!-- Champ Email -->
     <EditText
@@ -19,7 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:background="@drawable/custom_edittext"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
 
     <!-- Champ Mot de passe -->
     <EditText
@@ -27,19 +46,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Mot de passe"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:background="@drawable/custom_edittext"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
 
     <!-- Spinner pour choisir le rôle -->
     <Spinner
         android:id="@+id/roleSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edittext"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
 
     <!-- Bouton pour s'inscrire -->
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="S'inscrire"
-        android:layout_marginTop="16dp" />
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
 </LinearLayout>

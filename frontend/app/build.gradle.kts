@@ -40,11 +40,16 @@ android {
 }
 
 dependencies {
+    //add Material components
+    implementation("com.google.android.material:material:1.7.0-beta01")
+
     // Retrofit 2.9.0 (la version la plus stable à ce jour)
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
 
 // Gson pour la conversion JSON
     implementation ("com.google.code.gson:gson:2.8.8")
+
+
 
 // Converter pour Gson, nécessaire pour utiliser Gson avec Retrofit
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
