@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import iset.dsi.myapplicationsouhail.LoginActivity
+import iset.dsi.myapplication.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

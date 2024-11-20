@@ -1,4 +1,4 @@
-package iset.dsi.myapplicationsouhail
+package iset.dsi.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
