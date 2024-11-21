@@ -1,9 +1,13 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +27,6 @@
             android:layout_marginBottom="16dp"
             android:gravity="center" />
 
-
         <!-- Image en haut de la page -->
         <ImageView
             android:layout_width="match_parent"
@@ -32,7 +35,7 @@
             android:scaleType="centerCrop"
             android:contentDescription="Image d'accueil" />
 
-        <!-- Icone de recherche et barre de recherche -->
+        <!-- Icône de recherche et barre de recherche -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,14 +70,15 @@
                 android:textColorHint="@color/textColorSecondary" />
         </LinearLayout>
 
+        <!-- Section Ressources -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            android:gravity="center_vertical"> <!-- Assure que les éléments sont alignés verticalement au centre -->
+            android:gravity="center_vertical">
 
-            <!-- Titre "Ressources" avec couleur mauve -->
+            <!-- Titre "Ressources" -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,9 +92,9 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/> <!-- Ajoute un espacement flexible pour pousser "See All" à droite -->
+                android:layout_weight="1" />
 
-            <!-- Lien "See All" avec couleur bleue -->
+            <!-- Lien "See All" -->
             <TextView
                 android:id="@+id/see_all_resources"
                 android:layout_width="wrap_content"
@@ -98,16 +102,14 @@
                 android:text="See All"
                 android:textSize="14sp"
                 android:textColor="@color/blue"
-            android:layout_gravity="end"
-            android:paddingTop="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingEnd="8dp"/>
+                android:layout_gravity="end"
+                android:paddingTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingEnd="8dp" />
         </LinearLayout>
 
-
-
-        <!-- Section des ressources -->
+        <!-- Section des catégories -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,7 +197,7 @@
             android:textColor="@color/mauve"
             android:fontFamily="sans-serif-medium" />
 
-        <!-- LinearLayout pour afficher les recommandations -->
+        <!-- Liste des recommandations -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -203,7 +205,7 @@
             android:padding="16dp"
             android:layout_marginTop="8dp">
 
-            <!-- Carte de recommandation -->
+            <!-- Carte de recommandation 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,7 +239,7 @@
                     android:textColor="@color/textColorPrimary" />
             </LinearLayout>
 
-            <!-- Autre carte de recommandation -->
+            <!-- Carte de recommandation 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -265,13 +267,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Un cours approfondi sur l'intelligence artificielle pour les passionnés de technologies avancées."
+                    android:text="Découvrez l'IA et son impact sur notre société."
                     android:textSize="14sp"
                     android:paddingTop="8dp"
                     android:textColor="@color/textColorPrimary" />
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

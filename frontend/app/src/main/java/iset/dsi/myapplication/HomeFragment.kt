@@ -32,18 +32,18 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Récupérer les vues pour l'icône de recherche et la barre de recherche
-        val iconSearch = view.findViewById<ImageView>(R.id.icon_search)
-        val searchBar = view.findViewById<EditText>(R.id.search_bar)
+       // val iconSearch = view.findViewById<ImageView>(R.id.icon_search)
+        // val searchBar = view.findViewById<EditText>(R.id.search_bar)
 
         // Gérer l'événement de clic sur l'icône de recherche
-        iconSearch.setOnClickListener {
+        // iconSearch.setOnClickListener {
             // Basculer la visibilité de la barre de recherche
-            if (searchBar.visibility == View.GONE) {
-                searchBar.visibility = View.VISIBLE
-            } else {
-                searchBar.visibility = View.GONE
-            }
-        }
+            //if (searchBar.visibility == View.GONE) {
+             //   searchBar.visibility = View.VISIBLE
+           // } else {
+            //    searchBar.visibility = View.GONE
+           // }
+        //}
     }
 
     companion object {

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddRessourceFragment">
+
+    <!-- Ajout du ScrollView avec LinearLayout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload une ressource"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <!-- Champ pour le titre -->
+            <EditText
+                android:id="@+id/resourceTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Titre de la ressource"
+                android:padding="8dp"
+                android:background="@drawable/custom_edittext"
+                 />
+
+            <!-- Champ pour la description -->
+            <EditText
+                android:id="@+id/resourceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description de la ressource"
+                android:padding="8dp"
+                android:background="@drawable/custom_edittext"
+                android:layout_marginBottom="16dp"
+                android:minHeight="100dp"
+                android:gravity="top" />
+
+            <!-- Spinner pour la catégorie -->
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Bouton pour sélectionner un fichier -->
+            <Button
+                android:id="@+id/selectFileButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sélectionner un fichier"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/purple"
+                android:textColor="@android:color/white" />
+
+            <!-- Texte pour afficher le nom du fichier sélectionné -->
+            <TextView
+                android:id="@+id/fileNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aucun fichier sélectionné"
+                android:layout_marginBottom="16dp"
+                android:textSize="14sp" />
+
+            <!-- Bouton pour uploader la ressource -->
+            <Button
+                android:id="@+id/uploadButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Uploader la ressource"
+                android:backgroundTint="@color/purple"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

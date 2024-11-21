@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?attr/selectableItemBackground"
+    android:layout_marginBottom="8dp">
+
+    <!-- Notification Title -->
+    <TextView
+        android:id="@+id/notificationTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Titre de notification"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+
+    <!-- Notification Description -->
+    <TextView
+        android:id="@+id/notificationDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description de la notification"
+        android:textSize="14sp"
+        android:textColor="@color/cardview_dark_background"
+        android:layout_marginTop="4dp" />
+
+    <!-- Notification Date -->
+    <TextView
+        android:id="@+id/notificationDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="20/11/2024"
+        android:textSize="12sp"
+        android:textColor="@color/purple"
+        android:layout_marginTop="8dp" />
+</LinearLayout>
