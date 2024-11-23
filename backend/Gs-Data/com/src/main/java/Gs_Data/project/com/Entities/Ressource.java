@@ -14,23 +14,31 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class Ressource {
+
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Identifiant unique pour la ressource
+
     private String nom;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categorie_id")
-    private Categorie categorie;
+    private Categorie categorie; // Relation Many-to-One avec la table Categorie
 
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
     @JsonManagedReference
-    private FileMetaData fileMetaData;
+    private FileMetaData fileMetaData; // Relation One-to-One avec FileMetaData
 
     @CreationTimestamp
-    private LocalDateTime creeLe;
+    private LocalDateTime creeLe; // Date de création de la ressource
+
     @UpdateTimestamp
-    private LocalDateTime modifieLe;
+    private LocalDateTime modifieLe; // Date de dernière modification de la ressource
+
+    private String status = "en_attente"; // Statut par défaut
+
+    private Long userId; // ID de l'utilisateur qui partage la ressource
 }
