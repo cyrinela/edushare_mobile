@@ -113,17 +113,19 @@ public class RessourceService {
         return null;
     }
 
-    public List<Ressource> searchResources(String query) {
+    public List<Ressource> searchResources(String query, Boolean searchCategorie) {
         if (query == null || query.trim().isEmpty()) {
             return ressourceRepository.findAll();  // Return all if the query is empty
         }
+        List<Ressource> result;
+        if (!searchCategorie) {
+            // Search resources by name or category name
+            result = ressourceRepository.findByNomContainingIgnoreCase(query);
+        } else {
+            // Combine results (you could remove duplicates if necessary)
+            result = ressourceRepository.findByCategorie_NomContainingIgnoreCase(query);
+        }
 
-        // Search resources by name or category name
-        List<Ressource> resourcesByName = ressourceRepository.findByNomStartingWithIgnoreCase(query);
-        List<Ressource> resourcesByCategory = ressourceRepository.findByCategorieNomStartingWithIgnoreCase(query);
-
-        // Combine results (you could remove duplicates if necessary)
-        resourcesByName.addAll(resourcesByCategory);
-        return resourcesByName;
+        return result;
     }
 }

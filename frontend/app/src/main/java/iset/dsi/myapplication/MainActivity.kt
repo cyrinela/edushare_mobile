@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> loadFragment(HomeFragment())
-                R.id.navigation_resources -> loadFragment(ResourcesFragment())
+                R.id.navigation_resources -> loadFragment(MyRessourcesFragment())
                 R.id.navigation_profile -> loadFragment(ProfileFragment())
                 else -> false
             }

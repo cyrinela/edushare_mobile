@@ -1,59 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    >
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/resourceTitle"
+        android:id="@+id/resourceNom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Titre de la ressource"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp" />
+        android:text="Nom de la ressource"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/resourceDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Description de la ressource"
-        android:textSize="14sp"
-        android:layout_marginBottom="4dp" />
+        android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/resourceStatus"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Statut : En attente"
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="8dp" />
+        android:text="Éditer" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Éditer"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/purple"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Supprimer"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+        android:text="Supprimer" />
 </LinearLayout>

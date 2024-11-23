@@ -41,12 +41,8 @@ public class CategorieController {
         return ResponseEntity.status(404).body("error occurred");
     }
 
-    /*@PostMapping(path = "/add")
-    public Categorie create(@RequestBody Categorie categorie) {
-        return categorieService.save(categorie);
-    }*/
     @PostMapping
-    public ResponseEntity<Categorie> addCategory(@RequestBody Categorie categorie) {
+    public ResponseEntity<?> addCategory(@RequestBody Categorie categorie) {
         Categorie createdCategory = categorieService.save(categorie);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }

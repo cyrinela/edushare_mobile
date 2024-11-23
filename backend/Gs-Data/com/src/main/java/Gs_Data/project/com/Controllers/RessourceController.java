@@ -31,8 +31,10 @@ public class RessourceController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<List<Ressource>> searchResources(@RequestParam(required = false) String query) {
-        List<Ressource> resources = ressourceService.searchResources(query);
+    public ResponseEntity<List<Ressource>> searchResources(
+            @RequestParam(required = false) String query,
+            @RequestParam (defaultValue = "false", required = false) Boolean searchCategorie) {
+        List<Ressource> resources = ressourceService.searchResources(query,searchCategorie);
         return ResponseEntity.ok(resources);
     }
     @GetMapping
@@ -44,6 +46,7 @@ public class RessourceController {
     public Ressource findById(@PathVariable Long id) {
         return ressourceService.findById(id);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> modify(@RequestBody Ressource ressource, @PathVariable Long id) {
         if (ressourceService.Modify(id, ressource)) {
@@ -67,7 +70,7 @@ public class RessourceController {
     @DeleteMapping("/{id}")
     public void Delete(@PathVariable("id") Long id) {
         if (ressourceService.Delete(id)) {
-            // If necessary, handle any success response here
+            System.out.println("ressource supprimée");
         } else {
             // Handle the case where the resource was not found
             throw new ResourceNotFoundException("Ressource not found");
