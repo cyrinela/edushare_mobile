@@ -27,6 +27,7 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse("Utilisateur enregistré avec succès !"));
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         User existingUser = userRepository.findByEmail(user.getEmail()).orElse(null);

@@ -1,5 +1,10 @@
 <resources>
 
+    <string-array name="categories_array">
+        <item>Catégorie 1</item>
+        <item>Catégorie 2</item>
+        <item>Catégorie 3</item>
+    </string-array>
 
     <string name="register">REGISTER</string>
     <string name="login_email_hint">Email</string>

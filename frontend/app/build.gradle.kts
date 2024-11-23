@@ -48,7 +48,7 @@ dependencies {
 
 // Gson pour la conversion JSON
     implementation ("com.google.code.gson:gson:2.8.8")
-
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
 
 // Converter pour Gson, nécessaire pour utiliser Gson avec Retrofit
