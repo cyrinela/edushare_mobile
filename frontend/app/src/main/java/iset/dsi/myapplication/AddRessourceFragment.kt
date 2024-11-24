@@ -1,16 +1,26 @@
 package iset.dsi.myapplication
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 class AddRessourceFragment : Fragment() {
 
@@ -21,11 +31,10 @@ class AddRessourceFragment : Fragment() {
     private lateinit var fileEditText: EditText
     private lateinit var selectFileButton: Button
 
-    // Créer un scope de coroutine
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
-
-    // Constante pour identifier le sélecteur de fichier
     private val FILE_PICKER_REQUEST_CODE = 1001
+    private var selectedFileUri: Uri? = null
+    private var categoryMap: Map<String, Int> = emptyMap()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +42,7 @@ class AddRessourceFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_addressource, container, false)
 
-        // Initialisation des vues
+        // Initialize views
         categorySpinner = view.findViewById(R.id.categorySpinner)
         nameEditText = view.findViewById(R.id.nameEditText)
         descriptionEditText = view.findViewById(R.id.descriptionEditText)
@@ -41,31 +50,29 @@ class AddRessourceFragment : Fragment() {
         fileEditText = view.findViewById(R.id.fileEditText)
         selectFileButton = view.findViewById(R.id.selectFileButton)
 
-        // Appel de l'API pour récupérer les catégories
+        // Load categories from API
         fetchCategories()
 
-        // Définir un listener pour le bouton d'ajout
-        addButton.setOnClickListener {
-            addResource()
-        }
-
-        // Ouvrir le sélecteur de fichier lorsqu'on clique sur le bouton
-        selectFileButton.setOnClickListener {
-            openFileSelector()
-        }
+        // Set listeners
+        addButton.setOnClickListener { addResource() }
+        selectFileButton.setOnClickListener { openFileSelector() }
 
         return view
     }
 
     private fun fetchCategories() {
-        // Appel à l'API Retrofit pour récupérer les catégories
         RetrofitInstance.api.getCategories().enqueue(object : retrofit2.Callback<List<Category>> {
             override fun onResponse(call: retrofit2.Call<List<Category>>, response: Response<List<Category>>) {
                 if (response.isSuccessful) {
                     val categories = response.body()
                     categories?.let {
-                        // Créer un ArrayAdapter avec les catégories
-                        val categoryNames = it.map { category -> category.nom }
+                        // Map categories to a name-ID mapping
+                        categoryMap = it.associate { category -> category.nom to category.id }
+
+                        // Add default option
+                        val categoryNames = mutableListOf("Sélectionnez une catégorie")
+                        categoryNames.addAll(categoryMap.keys)
+
                         val adapter = ArrayAdapter(
                             requireContext(),
                             android.R.layout.simple_spinner_item,
@@ -80,82 +87,96 @@ class AddRessourceFragment : Fragment() {
             }
 
             override fun onFailure(call: retrofit2.Call<List<Category>>, t: Throwable) {
-                // Afficher un message d'erreur si l'appel échoue
                 Toast.makeText(requireContext(), "Échec de la connexion au serveur", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     private fun addResource() {
-        // Récupérer les données du formulaire
         val name = nameEditText.text.toString()
         val description = descriptionEditText.text.toString()
         val categoryPosition = categorySpinner.selectedItemPosition
-        val fileUri = fileEditText.text.toString()
+        val selectedCategory = categorySpinner.selectedItem.toString()
+        val fileUri = selectedFileUri
 
-        if (name.isEmpty() || description.isEmpty() || categoryPosition == 0 || fileUri.isEmpty()) {
-            // Vérifier que toutes les informations sont saisies
+        // Validation
+        if (name.isEmpty() || description.isEmpty() || categoryPosition == 0 || fileUri == null) {
             Toast.makeText(requireContext(), "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Créer l'objet Resource avec les données
-        val categoryId = categoryPosition // L'ID réel de la catégorie devrait être ici, mappé selon la catégorie sélectionnée
-        val resource = Resource(
-            id = null,
-            description = description,
-            nom = name,
-            categorie_id = categoryId
-        )
+        val categoryId = categoryMap[selectedCategory] ?: return
+        val file = createTemporaryFileFromUri(requireContext(), fileUri)
 
-        // Appel API pour ajouter la ressource à l'intérieur d'une coroutine
+        // Prepare request parts
+        val resourceJson = """
+            {
+                "nom": "$name",
+                "description": "$description",
+                "categorie": {"id": $categoryId}
+            }
+        """.trimIndent().toRequestBody("application/json".toMediaTypeOrNull())
+
+        val filePart = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val multipartFile = MultipartBody.Part.createFormData("file", file.name, filePart)
+
         coroutineScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
-                    RetrofitInstance.api.addResource(resource)
+                    RetrofitInstance.api.addResource(resourceJson, multipartFile)
                 }
 
                 if (response.isSuccessful) {
-                    // Afficher un message de succès
                     Toast.makeText(requireContext(), "Ressource ajoutée avec succès", Toast.LENGTH_SHORT).show()
-                    // Réinitialiser le formulaire
-                    nameEditText.text.clear()
-                    descriptionEditText.text.clear()
-                    categorySpinner.setSelection(0)
-                    fileEditText.text.clear()
+                    resetForm()
                 } else {
-                    // Afficher un message d'erreur
                     Toast.makeText(requireContext(), "Erreur lors de l'ajout de la ressource", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                // Gérer l'exception si l'appel échoue
                 Toast.makeText(requireContext(), "Échec de la connexion au serveur", Toast.LENGTH_SHORT).show()
+                Log.e("AddResource", "Error adding resource", e)
             }
         }
     }
 
-    // Ouvrir le sélecteur de fichier
     private fun openFileSelector() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "*/*" // Ou spécifier un type particulier comme "application/pdf" ou "image/*"
+        intent.type = "*/*"
         startActivityForResult(intent, FILE_PICKER_REQUEST_CODE)
     }
 
-    // Gérer le résultat du sélecteur de fichier
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val fileUri: Uri? = data?.data
             fileUri?.let {
-                fileEditText.setText(it.toString()) // Afficher l'URI du fichier dans l'EditText
+                fileEditText.setText(it.path)
+                selectedFileUri = it
             }
         }
     }
 
-    // Nettoyage lorsque le fragment est détruit
+    private fun createTemporaryFileFromUri(context: Context, uri: Uri): File {
+        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+        val tempFile = File(context.cacheDir, "tempFile")
+        inputStream.use { input ->
+            FileOutputStream(tempFile).use { output ->
+                input?.copyTo(output)
+            }
+        }
+        return tempFile
+    }
+
+    private fun resetForm() {
+        nameEditText.text.clear()
+        descriptionEditText.text.clear()
+        categorySpinner.setSelection(0)
+        fileEditText.text.clear()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        coroutineScope.cancel() // Annule toutes les coroutines lancées par ce fragment
+        coroutineScope.cancel()
     }
 }

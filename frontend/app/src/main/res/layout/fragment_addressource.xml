@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nom de la ressource"
-        android:inputType="text" />
+        android:inputType="text"
+        android:minHeight="48dp" />
 
     <!-- Champ pour la description de la ressource -->
     <EditText
@@ -25,7 +26,8 @@
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" />
 
     <!-- Bouton pour sélectionner un fichier -->
     <Button
