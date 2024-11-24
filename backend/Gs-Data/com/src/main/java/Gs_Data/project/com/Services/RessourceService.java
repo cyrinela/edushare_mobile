@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -64,21 +65,16 @@ public class RessourceService {
         return false;
     }
 
-    public Boolean save(Ressource ressource, MultipartFile file, Long userId) throws IOException {
-        // Upload du fichier et création des métadonnées
-        String fileUrlId = uploadFileData(file);  // Upload du fichier
-        FileMetaData savedMeta = uploadFileMeta(file, fileUrlId);  // Sauvegarde des métadonnées du fichier
-
-        // Si le fichier et les métadonnées sont valides, lier la ressource et sauvegarder
-        if (savedMeta != null && fileUrlId != null) {
-            ressource.setFileMetaData(savedMeta); // Lier les métadonnées à la ressource
-            ressource.setUserId(userId);  // Associer l'ID de l'utilisateur à la ressource
-            ressourceRepository.save(ressource);  // Sauvegarder la ressource dans la base de données
+    public Boolean save(Ressource ressource,MultipartFile file) throws IOException {
+        String FileUrlId = uploadFileData(file); // upload File to mongodb
+        FileMetaData savedMeta = uploadFileMeta(file,FileUrlId); // upload FileMeta to MySQL
+        if (savedMeta != null && FileUrlId != null) {
+            ressource.setFileMetaData(savedMeta); // link fileMeta to ressource table
+            ressourceRepository.save(ressource);
             return true;
         }
         return false;
     }
-
 
     FileMetaData uploadFileMeta(MultipartFile file,String FileUrlId) {
         try {
@@ -117,19 +113,17 @@ public class RessourceService {
         return null;
     }
 
-    public List<Ressource> searchResources(String query, Boolean searchCategorie) {
+    public List<Ressource> searchResources(String query) {
         if (query == null || query.trim().isEmpty()) {
             return ressourceRepository.findAll();  // Return all if the query is empty
         }
-        List<Ressource> result;
-        if (!searchCategorie) {
-            // Search resources by name or category name
-            result = ressourceRepository.findByNomContainingIgnoreCase(query);
-        } else {
-            // Combine results (you could remove duplicates if necessary)
-            result = ressourceRepository.findByCategorie_NomContainingIgnoreCase(query);
-        }
 
-        return result;
+        // Search resources by name or category name
+        List<Ressource> resourcesByName = ressourceRepository.findByNomStartingWithIgnoreCase(query);
+        List<Ressource> resourcesByCategory = ressourceRepository.findByCategorieNomStartingWithIgnoreCase(query);
+
+        // Combine results (you could remove duplicates if necessary)
+        resourcesByName.addAll(resourcesByCategory);
+        return resourcesByName;
     }
 }

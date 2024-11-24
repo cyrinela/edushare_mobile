@@ -1,4 +1,5 @@
 package Gs_Data.project.com.Controllers;
+
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Services.RessourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,40 +17,33 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/ressources")
 public class RessourceController {
-
     @Autowired
     private RessourceService ressourceService;
 
+
     @GetMapping("/search")
-    public ResponseEntity<List<Ressource>> searchResources(
-            @RequestParam(required = false) String query,
-            @RequestParam(defaultValue = "false", required = false) Boolean searchCategorie) {
-        List<Ressource> resources = ressourceService.searchResources(query, searchCategorie);
+    public ResponseEntity<List<Ressource>> searchResources(@RequestParam(required = false) String query) {
+        List<Ressource> resources = ressourceService.searchResources(query);
         return ResponseEntity.ok(resources);
     }
-
     @GetMapping
-    public ResponseEntity<List<Ressource>> getAll() {
-        List<Ressource> ressources = ressourceService.findAll();
-        if (ressources.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-        return ResponseEntity.ok(ressources);
+    public List<Ressource> getAll() {
+        return ressourceService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Ressource> findById(@PathVariable Long id) {
-        Ressource ressource = ressourceService.findById(id);
-        if (ressource != null) {
-            return ResponseEntity.ok(ressource);
-        }
-        throw new ResourceNotFoundException("Ressource not found with ID: " + id);
+    public Ressource findById(@PathVariable Long id) {
+        return ressourceService.findById(id);
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> modify(@RequestBody Ressource ressource, @PathVariable Long id) {
         if (ressourceService.Modify(id, ressource)) {
@@ -57,76 +51,58 @@ public class RessourceController {
             response.put("message", "Resource successfully modified");
             return ResponseEntity.ok(response);
         }
-        throw new ResourceNotFoundException("Ressource not found with ID: " + id);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable Long id) {
-        if (ressourceService.Delete(id)) {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Ressource successfully deleted");
-            return ResponseEntity.ok(response);
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public class ResourceNotFoundException extends RuntimeException {
+        public ResourceNotFoundException(String message) {
+            super(message);
         }
-        throw new ResourceNotFoundException("Ressource not found with ID: " + id);
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    public void Delete(@PathVariable("id") Long id) {
+        if (ressourceService.Delete(id)) {
+            // If necessary, handle any success response here
+        } else {
+            // Handle the case where the resource was not found
+            throw new ResourceNotFoundException("Ressource not found");
+        }
     }
 
     @GetMapping(path = "/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {
-        GridFsResource resultFile = ressourceService.downloadFile(id);
-        if (resultFile != null) {
+        GridFsResource ResultFile = ressourceService.downloadFile(id);
+        if (ResultFile != null) {
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(resultFile.getContentType()))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resultFile.getFilename() + "\"")
-                    .body(resultFile);
+                    .contentType(MediaType.parseMediaType(ResultFile.getContentType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + ResultFile.getFilename() + "\"")
+                    .body(ResultFile);
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(null);
+        return ResponseEntity.status(500).body(null);
     }
 
-    @PostMapping(path = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> create(@RequestPart(name = "ressource") String ressourceJson,
-                                         @RequestPart(name = "file") MultipartFile file) {
-        try {
-            // Vérifier que le fichier n'est pas vide
-            if (file.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("File is required and cannot be empty");
-            }
 
-            // Désérialiser le JSON de la ressource en objet Ressource
+    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> create(@RequestPart(name = "ressource") String ressourceJson,
+                                         @RequestPart(name = "file") MultipartFile file) throws IOException {
+        try {
+            // Deserialize the ressource JSON to a Ressource object
             ObjectMapper objectMapper = new ObjectMapper();
             Ressource ressource = objectMapper.readValue(ressourceJson, Ressource.class);
 
-            // Vérifier si l'ID utilisateur est présent, sinon utiliser un ID par défaut (par exemple, 1)
-            if (ressource.getUserId() == null) {
-                ressource.setUserId(1L);  // ID utilisateur par défaut
-            }
-
-            // Sauvegarder la ressource et le fichier
-            boolean isSaved = ressourceService.save(ressource, file, ressource.getUserId());
-            if (isSaved) {
+            // Check if file is not empty and pass both ressource and file to save method
+            if (ressourceService.save(ressource, file)) {
                 return ResponseEntity.ok("Ressource saved successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Error occurred while saving the resource");
+                return ResponseEntity.status(500).body("Error occurred while saving the resource");
             }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid data format: " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
-        }
-    }
-
-
-
-
-    // Exception class for handling resource not found error
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public static class ResourceNotFoundException extends RuntimeException {
-        public ResourceNotFoundException(String message) {
-            super(message);
+            return ResponseEntity.status(400).body("Invalid data: " + e.getMessage());
         }
     }
 }
