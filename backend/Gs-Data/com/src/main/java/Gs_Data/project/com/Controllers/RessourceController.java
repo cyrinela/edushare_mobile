@@ -1,5 +1,6 @@
 package Gs_Data.project.com.Controllers;
 
+import Gs_Data.project.com.dto.ResourceDto;
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Services.RessourceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,12 @@ public class RessourceController {
         return ressourceService.findAll();
     }
 
+    @GetMapping("/all")
+    public List<ResourceDto> getAllResources() {
+        return ressourceService.getAllResources();
+    }
+
+
     @GetMapping("/{id}")
     public Ressource findById(@PathVariable Long id) {
         return ressourceService.findById(id);
@@ -63,16 +70,19 @@ public class RessourceController {
     }
 
 
-
     @DeleteMapping("/{id}")
-    public void Delete(@PathVariable("id") Long id) {
-        if (ressourceService.Delete(id)) {
-            // If necessary, handle any success response here
+    public ResponseEntity<String> deleteResource(@PathVariable("id") Long id) {
+        boolean isDeleted = ressourceService.Delete(id);
+
+        if (isDeleted) {
+            // Répondre avec un code 200 OK et un message de succès
+            return new ResponseEntity<>("Ressource supprimée avec succès", HttpStatus.OK);
         } else {
-            // Handle the case where the resource was not found
-            throw new ResourceNotFoundException("Ressource not found");
+            // Si la ressource n'a pas été trouvée, on lève une exception personnalisée
+            throw new ResourceNotFoundException("Ressource non trouvée avec l'ID: " + id);
         }
     }
+
 
     @GetMapping(path = "/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {

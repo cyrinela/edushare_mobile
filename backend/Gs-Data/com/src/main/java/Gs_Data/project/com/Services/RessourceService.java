@@ -1,10 +1,12 @@
 package Gs_Data.project.com.Services;
 
 import Gs_Data.project.com.Entities.FileMetaData;
+import Gs_Data.project.com.dto.ResourceDto;
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Repositories.FileMetaDataRepository;
 import Gs_Data.project.com.Repositories.RessourceRepository;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import jakarta.annotation.Resource;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,9 +17,9 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RessourceService {
@@ -64,6 +66,7 @@ public class RessourceService {
         }
         return false;
     }
+
 
     public Boolean save(Ressource ressource,MultipartFile file) throws IOException {
         String FileUrlId = uploadFileData(file); // upload File to mongodb
@@ -126,4 +129,10 @@ public class RessourceService {
         resourcesByName.addAll(resourcesByCategory);
         return resourcesByName;
     }
+
+    public List<ResourceDto> getAllResources() {
+        return ressourceRepository.findAllResourcesWithCategoryAndFile();
+    }
+
+
 }
