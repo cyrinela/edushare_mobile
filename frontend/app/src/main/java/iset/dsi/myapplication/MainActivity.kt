@@ -1,6 +1,7 @@
 // MainActivity.kt
 package iset.dsi.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> loadFragment(HomeFragment())
-                R.id.navigation_resources -> loadFragment(MyRessourcesFragment())
+                R.id.navigation_resources -> loadFragment(CategoryFragment())
                 R.id.navigation_profile -> loadFragment(ProfileFragment())
                 else -> false
             }
@@ -70,9 +71,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_myressource -> loadFragment(MyRessourcesFragment())
             R.id.nav_notifications -> loadFragment(NotificationsFragment())
             R.id.nav_about -> loadFragment(AboutFragment())
+            R.id.nav_logout  -> {
+                logout()
 
+            }
 
-            R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -84,5 +87,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             super.onBackPressed()
         }
+
+
+
+
     }
+
+    private fun logout() {
+        // Effacer les informations de l'utilisateur ou le token d'authentification si nécessaire
+        val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
+        sharedPreferences.edit().clear().apply()  // Effacer toutes les préférences stockées
+
+
+        // Rediriger vers la page de login
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        // Afficher un message Toast pour indiquer la déconnexion
+        Toast.makeText(this, "Déconnexion réussite", Toast.LENGTH_SHORT).show()
+
+
+        // Fermer l'activité actuelle pour empêcher de revenir en arrière
+        finish()
+    }
+
 }

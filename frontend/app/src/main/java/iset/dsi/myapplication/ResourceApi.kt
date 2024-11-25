@@ -12,6 +12,12 @@ interface ResourceApi {
     @GET("/categories")  // Remplacez par l'URL de votre endpoint
     fun getCategories(): Call<List<Category>>  // Liste des objets Category
 
+    @DELETE("categories/delete/{id}")
+    fun deleteCategory(@Path("id") id: Int): Call<Void>
+
+    @PUT("categories/update/{id}")
+    fun updateCategory(@Path("id") id: Int, @Body resource: Category): Call<Void>
+
     @GET("ressources")
     fun getResources(): Call<List<Resource>>
 
