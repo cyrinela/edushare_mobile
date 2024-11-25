@@ -33,13 +33,14 @@ public class CategorieController {
         return ResponseEntity.status(404).body("error occurred");
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         if (categorieService.Delete(id)) {
             return ResponseEntity.ok("Categorie deleted");
         }
-        return ResponseEntity.status(404).body("error occurred");
+        return ResponseEntity.status(404).body("Error occurred");
     }
+
 
     /*@PostMapping(path = "/add")
     public Categorie create(@RequestBody Categorie categorie) {
@@ -50,4 +51,14 @@ public class CategorieController {
         Categorie createdCategory = categorieService.save(categorie);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody Categorie category) {
+        if (categorieService.Modify(id, category)) {
+            return ResponseEntity.ok("Catégorie mise à jour avec succès");
+        }
+        return ResponseEntity.status(404).body("Erreur lors de la mise à jour");
+    }
+
 }

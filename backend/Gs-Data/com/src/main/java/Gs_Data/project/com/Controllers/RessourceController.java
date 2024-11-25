@@ -1,8 +1,8 @@
 package Gs_Data.project.com.Controllers;
 
-import Gs_Data.project.com.dto.ResourceDto;
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Services.RessourceService;
+import Gs_Data.project.com.dto.ResourceDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -32,25 +32,25 @@ public class RessourceController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<List<Ressource>> searchResources(@RequestParam(required = false) String query) {
-        List<Ressource> resources = ressourceService.searchResources(query);
+    public ResponseEntity<List<Ressource>> searchResources(
+            @RequestParam(required = false) String query,
+            @RequestParam (defaultValue = "false", required = false) Boolean searchCategorie) {
+        List<Ressource> resources = ressourceService.searchResources(query,searchCategorie);
         return ResponseEntity.ok(resources);
     }
     @GetMapping
     public List<Ressource> getAll() {
         return ressourceService.findAll();
     }
-
     @GetMapping("/all")
     public List<ResourceDto> getAllResources() {
         return ressourceService.getAllResources();
     }
-
-
     @GetMapping("/{id}")
     public Ressource findById(@PathVariable Long id) {
         return ressourceService.findById(id);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> modify(@RequestBody Ressource ressource, @PathVariable Long id) {
         if (ressourceService.Modify(id, ressource)) {
@@ -70,19 +70,16 @@ public class RessourceController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteResource(@PathVariable("id") Long id) {
-        boolean isDeleted = ressourceService.Delete(id);
 
-        if (isDeleted) {
-            // Répondre avec un code 200 OK et un message de succès
-            return new ResponseEntity<>("Ressource supprimée avec succès", HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public void Delete(@PathVariable("id") Long id) {
+        if (ressourceService.Delete(id)) {
+            System.out.println("ressource supprimée");
         } else {
-            // Si la ressource n'a pas été trouvée, on lève une exception personnalisée
-            throw new ResourceNotFoundException("Ressource non trouvée avec l'ID: " + id);
+            // Handle the case where the resource was not found
+            throw new ResourceNotFoundException("Ressource not found");
         }
     }
-
 
     @GetMapping(path = "/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long id) {

@@ -6,7 +6,6 @@ import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Repositories.FileMetaDataRepository;
 import Gs_Data.project.com.Repositories.RessourceRepository;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import jakarta.annotation.Resource;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RessourceService {
@@ -116,7 +114,7 @@ public class RessourceService {
         return null;
     }
 
-    public List<Ressource> searchResources(String query) {
+    public List<Ressource> searchResources(String query, Boolean searchCategorie) {
         if (query == null || query.trim().isEmpty()) {
             return ressourceRepository.findAll();  // Return all if the query is empty
         }
