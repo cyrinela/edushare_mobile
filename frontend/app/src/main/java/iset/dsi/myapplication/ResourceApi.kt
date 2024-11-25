@@ -1,5 +1,6 @@
 import iset.dsi.myapplication.Category
 import iset.dsi.myapplication.Resource
+import iset.dsi.myapplication.ResourceDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -17,9 +18,6 @@ interface ResourceApi {
     @DELETE("ressources/{id}")
     fun deleteResource(@Path("id") id: Int): Call<Void>
 
-
-
-
     @Multipart
     @POST("ressources/add")
     suspend fun addResource(
@@ -28,7 +26,18 @@ interface ResourceApi {
     ): Response<Void>
 
 
-
     @PUT("ressources/{id}")
     fun updateResource(@Path("id") id: Int, @Body resource: Resource): Call<Resource>
+
+
+    @GET("/ressources/all")
+    fun getResources2(): Call<List<ResourceDto>>
+
+    // Mettre à jour une ressource
+    @PUT("resources/{id}")
+    fun updateResource2(
+        @Path("id") id: Int,
+        @Body resource: Resource
+    ): Call<Resource>
 }
+

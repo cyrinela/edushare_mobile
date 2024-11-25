@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.27.34:8085" //10.0.2.2:8085
+    private val BASE_URL = "http://10.0.2.2:8085" //10.0.2.2:8085
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText

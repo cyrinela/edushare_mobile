@@ -11,6 +11,8 @@
     <color name="mauve">#8A2BE2</color> <!-- Exemple de couleur mauve -->
     <color name="blue">#0000FF</color> <!-- Exemple de couleur bleue -->
     <color name="purple">#8692f7</color>
+    <color name="light_blue">#03A9F4</color>
+    <color name="light_purple">#9C27B0</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

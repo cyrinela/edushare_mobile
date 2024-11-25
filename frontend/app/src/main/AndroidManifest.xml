@@ -27,7 +27,7 @@
 
         <!-- Register Activity -->
         <activity android:name=".RegisterActivity" />
-
+      <!--  <activity android:name=".LoginActivity" />-->
         <!-- Login Activity -->
         <activity
             android:name=".LoginActivity"
