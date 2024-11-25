@@ -16,7 +16,10 @@ interface ResourceApi {
     fun deleteCategory(@Path("id") id: Int): Call<Void>
 
     @PUT("categories/update/{id}")
-    fun updateCategory(@Path("id") id: Int, @Body resource: Category): Call<Void>
+    fun updateCategory(@Path("id") id: Int, @Body resource: Category): Call<Category>
+
+    @POST("categories")
+    fun addCategory(@Body category: Category): Call<Category>
 
     @GET("ressources")
     fun getResources(): Call<List<Resource>>
