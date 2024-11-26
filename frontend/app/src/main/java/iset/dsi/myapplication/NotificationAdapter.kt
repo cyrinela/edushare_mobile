@@ -1,6 +1,5 @@
 package iset.dsi.myapplication
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +24,8 @@ class NotificationAdapter(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification = notifications[position]
-        holder.title.text = notification.title
-        holder.description.text = notification.description
+        holder.title.text = notification.message
+        holder.description.text = notification.status
         holder.date.text = notification.date
     }
 

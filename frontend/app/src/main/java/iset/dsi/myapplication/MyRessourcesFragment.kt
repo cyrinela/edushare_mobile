@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 class MyRessourcesFragment : Fragment() {
 
     private lateinit var myResourcesRecyclerView: RecyclerView
     private lateinit var myResourcesAdapter: MyResourcesAdapter
-    private val resources = mutableListOf<ResourceDto>() // Utilisation de ResourceDto
+    private val resources = mutableListOf<Resource>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,64 +48,70 @@ class MyRessourcesFragment : Fragment() {
         return view
     }
 
+    // Charger les ressources depuis l'API
     private fun fetchResources() {
-        RetrofitInstance.api.getResources2().enqueue(object : Callback<List<ResourceDto>> {
-            override fun onResponse(call: Call<List<ResourceDto>>, response: Response<List<ResourceDto>>) {
+        RetrofitInstance.api.getResources().enqueue(object : Callback<List<Resource>> {
+            override fun onResponse(call: Call<List<Resource>>, response: Response<List<Resource>>) {
                 if (response.isSuccessful) {
-                    resources.clear()  // Vider la liste actuelle
-                    response.body()?.let {
-                        // Ajouter chaque élément de ResourceDto à la liste
-                        resources.addAll(it)
-                    }
-                    myResourcesAdapter.notifyDataSetChanged()  // Notifier l'adaptateur pour mettre à jour la RecyclerView
+                    resources.clear()
+                    response.body()?.let { resources.addAll(it) }
+                    myResourcesAdapter.notifyDataSetChanged()
                 } else {
                     Toast.makeText(requireContext(), "Erreur de chargement des ressources", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<List<ResourceDto>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Resource>>, t: Throwable) {
                 Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     // Ouvrir le DialogFragment pour éditer une ressource
-    private fun openEditDialog(resource: ResourceDto) {  // Utilisation de ResourceDto ici
+    private fun openEditDialog(resource: Resource) {
         val bundle = Bundle().apply {
-            // Utiliser les données de ResourceDto ici
-            putString("RESOURCE_NAME", resource.resourceName)
+            resource.id?.let { putInt("RESOURCE_ID", it) }
+            putString("RESOURCE_NAME", resource.nom)
             putString("RESOURCE_DESCRIPTION", resource.description)
-            putString("CATEGORY_NAME", resource.categoryName)
-            putString("FILE_NAME", resource.fileName)
+            putInt("CATEGORIE_ID", resource.categorie_id)
         }
 
         val dialog = EditResourceDialogFragment().apply {
             arguments = bundle
+            setOnResourceUpdatedListener(object : EditResourceDialogFragment.OnResourceUpdatedListener {
+                override fun onResourceUpdated() {
+                    fetchResources() // Recharge les ressources après l'édition
+                }
+            })
         }
         dialog.show(parentFragmentManager, "EditResourceDialog")
     }
 
     // Supprimer une ressource via l'API
-    private fun deleteResource(resource: ResourceDto) {  // Utilisation de ResourceDto ici
-      /*  RetrofitInstance.api.deleteResource(resource.resourceName).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    resources.remove(resource)
-                    myResourcesAdapter.notifyDataSetChanged()
-                    Toast.makeText(requireContext(), "Ressource supprimée avec succès", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Erreur lors de la suppression", Toast.LENGTH_SHORT).show()
+    private fun deleteResource(resource: Resource) {
+        resource.id?.let { resourceId ->
+            RetrofitInstance.api.deleteResource(resourceId).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        resources.remove(resource)
+                        myResourcesAdapter.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "Ressource supprimée avec succès", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Erreur lors de la suppression", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })*/
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } ?: run {
+            Toast.makeText(requireContext(), "ID de la ressource introuvable", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Afficher une boîte de dialogue de confirmation pour la suppression
-    private fun showDeleteConfirmationDialog(resource: ResourceDto) {
+    private fun showDeleteConfirmationDialog(resource: Resource) {
         AlertDialog.Builder(requireContext())
             .setTitle("Supprimer la ressource")
             .setMessage("Êtes-vous sûr de vouloir supprimer cette ressource ?")

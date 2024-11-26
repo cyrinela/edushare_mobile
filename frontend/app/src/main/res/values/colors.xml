@@ -31,6 +31,7 @@
     <color name="primaryTextColor">#2661FA</color>
     <color name="loginBkColor">#F0F0F0</color>
     <!-- colors for card -->
-    <color name="whiteCardColor">#FFF</color>
+
+    <color name="redCardColor">#D02525</color>
 
 </resources>

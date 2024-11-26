@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class Ressource {
     @Id
     private Long id;
+
     private String nom;
     private String description;
 
@@ -29,8 +30,15 @@ public class Ressource {
     @JsonManagedReference
     private FileMetaData fileMetaData;
 
+  //  @ManyToOne
+   // @JoinColumn(name = "user_id") // Association avec l'utilisateur
+    private Long UserId=1L;
+
     @CreationTimestamp
     private LocalDateTime creeLe;
+
     @UpdateTimestamp
     private LocalDateTime modifieLe;
+
+    private String status = "en_attente"; // Statut par défaut
 }

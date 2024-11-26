@@ -52,14 +52,21 @@ public class RessourceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> modify(@RequestBody Ressource ressource, @PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> modify(
+            @RequestBody Ressource ressource,
+            @PathVariable Long id) {
+
         if (ressourceService.Modify(id, ressource)) {
             Map<String, String> response = new HashMap<>();
-            response.put("message", "Resource successfully modified");
+            response.put("message", "Ressource mise à jour avec succès");
             return ResponseEntity.ok(response);
         }
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+
+
+
 
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

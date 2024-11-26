@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Description de la notification"
         android:textSize="14sp"
-        android:textColor="@color/cardview_dark_background"
+        android:textColor="@color/black"
         android:layout_marginTop="4dp" />
 
     <!-- Notification Date -->
@@ -35,6 +35,6 @@
         android:layout_height="wrap_content"
         android:text="20/11/2024"
         android:textSize="12sp"
-        android:textColor="@color/purple"
+        android:textColor="@color/redCardColor"
         android:layout_marginTop="8dp" />
 </LinearLayout>

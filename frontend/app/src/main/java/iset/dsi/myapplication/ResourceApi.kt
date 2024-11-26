@@ -1,4 +1,5 @@
 import iset.dsi.myapplication.Category
+import iset.dsi.myapplication.Notification
 import iset.dsi.myapplication.Resource
 import iset.dsi.myapplication.ResourceDto
 import okhttp3.MultipartBody
@@ -45,5 +46,11 @@ interface ResourceApi {
         @Path("id") id: Int,
         @Body resource: Resource
     ): Call<Resource>
+
+
+    @GET("/notifications")
+    fun getNotifications(): Call<List<Notification>>
+
+
 }
 
