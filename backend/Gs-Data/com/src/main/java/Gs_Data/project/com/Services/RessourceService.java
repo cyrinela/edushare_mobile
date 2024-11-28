@@ -9,6 +9,7 @@ import Gs_Data.project.com.Repositories.FileMetaDataRepository;
 import Gs_Data.project.com.Repositories.RessourceRepository;
 import Gs_Data.project.com.feign.UserFeignClient;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import jakarta.annotation.Resource;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -198,6 +199,12 @@ public class RessourceService {
         return ressourceRepository.findAllResourcesWithCategoryAndFile();
     }
 
+    // Méthode pour récupérer les ressources par ID de catégorie
+    // Méthode pour récupérer les ressources par ID de catégorie
+    public List<Ressource> getResourcesByCategory(int categoryId) {
+        // Utilisation du repository pour récupérer les ressources associées à la catégorie
+        return ressourceRepository.findByCategorieId(categoryId);
+    }
 
     public List<Ressource> findByUserId(Long userId) {
         return ressourceRepository.findByUserId(userId); // Assurez-vous que le repository dispose de cette méthode.
