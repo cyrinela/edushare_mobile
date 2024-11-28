@@ -16,8 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginActivity : AppCompatActivity() {
 
-    private val BASE_URL = "http://192.168.27.34:8085" //10.0.2.2:8085
-
+    private val BASE_URL = "http://172.20.10.6:8085" // Remplacez par votre URL backend
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
@@ -37,8 +36,7 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                val userLogin = UserLogin(email, password)
-                loginUser(userLogin)
+                loginUser(email, password)
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
@@ -50,29 +48,33 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginUser(userLogin: UserLogin) {
+    private fun loginUser(email: String, password: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-
+        val userLogin = UserLogin(email, password)
         val call = apiService.login(userLogin)
 
-        call.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+        call.enqueue(object : Callback<LoginResponse2> {
+            override fun onResponse(call: Call<LoginResponse2>, response: Response<LoginResponse2>) {
                 if (response.isSuccessful) {
-                    // Identifiants valides
-                    val email = userLogin.email
-                    fetchUserByEmail(email) // Récupérer les détails de l'utilisateur
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        Toast.makeText(this@LoginActivity, "Connexion réussie, ID utilisateur : ${loginResponse.userId}", Toast.LENGTH_LONG).show()
+                        fetchUserByEmail(email)
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Réponse vide", Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    Toast.makeText(this@LoginActivity, "Identifiants incorrects", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginActivity, "Erreur : ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, "Erreur de connexion: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+            override fun onFailure(call: Call<LoginResponse2>, t: Throwable) {
+                Toast.makeText(this@LoginActivity, "Erreur de connexion : ${t.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -84,7 +86,6 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-
         val call = apiService.getUserByEmail(email)
 
         call.enqueue(object : Callback<User> {
@@ -112,12 +113,12 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Utilisateur introuvable", Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Toast.makeText(this@LoginActivity, "Erreur: ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@LoginActivity, "Erreur : ${response.errorBody()?.string()}", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, "Erreur de connexion: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity, "Erreur de connexion : ${t.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         })
     }

@@ -29,7 +29,9 @@ class NotificationsFragment : Fragment() {
 
         // Initialisation de Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.27.34:8100") // Remplace par l'URL de ton API
+
+            //"http://192.168.27.34:8100"
+            .baseUrl("http://172.20.10.6:8100") // Remplace par l'URL de ton API
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
