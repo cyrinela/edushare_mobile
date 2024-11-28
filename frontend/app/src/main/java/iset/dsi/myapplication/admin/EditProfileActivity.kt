@@ -1,9 +1,12 @@
 package iset.dsi.myapplication.admin
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +24,8 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var mdpEditText: EditText
     private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
+    private lateinit var progressBar: ProgressBar
     private var userId: Long = -1
 
     @SuppressLint("MissingInflatedId")
@@ -33,6 +38,8 @@ class EditProfileActivity : AppCompatActivity() {
         emailEditText = findViewById(R.id.emailEditText)
         mdpEditText = findViewById(R.id.mdpEditText)
         saveButton = findViewById(R.id.saveButton)
+        cancelButton = findViewById(R.id.cancelButton)
+        progressBar = findViewById(R.id.progressBar)
 
         // Récupérer l'ID utilisateur depuis SharedPreferences
         val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
@@ -47,6 +54,40 @@ class EditProfileActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             saveProfile()
         }
+
+        // Annuler les modifications
+        cancelButton.setOnClickListener {
+            finish() // Ferme l'activité sans enregistrer les changements
+        }
+    }
+
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        progressBar.visibility = View.GONE
+    }
+
+    private fun validateInput(): Boolean {
+        val fullname = fullnameEditText.text.toString()
+        val email = emailEditText.text.toString()
+        val password = mdpEditText.text.toString()
+
+        if (fullname.isEmpty()) {
+            fullnameEditText.error = "Le nom complet est obligatoire"
+            return false
+        }
+        if (email.isEmpty()) {
+            emailEditText.error = "L'email est obligatoire"
+            return false
+        }
+        if (password.isEmpty()) {
+            mdpEditText.error = "Le mot de passe est obligatoire"
+            return false
+        }
+
+        return true
     }
 
     private fun fetchUserProfile(userId: Long) {
@@ -77,6 +118,12 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfile() {
+        if (!validateInput()) {
+            return
+        }
+
+        showLoading()
+
         // Récupérer les nouvelles valeurs des champs
         val updatedFullname = fullnameEditText.text.toString()
         val updatedEmail = emailEditText.text.toString()
@@ -86,7 +133,7 @@ class EditProfileActivity : AppCompatActivity() {
         val updatedUser = UserWithoutRole(
             fullname = updatedFullname,
             email = updatedEmail,
-            password = updatedPassword // Si vous permettez de mettre à jour le mot de passe
+            password = updatedPassword
         )
 
         // Envoyer la demande de mise à jour des informations de l'utilisateur
@@ -95,6 +142,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         call.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
+                hideLoading()
                 if (response.isSuccessful) {
                     Toast.makeText(this@EditProfileActivity, "Profil mis à jour", Toast.LENGTH_LONG).show()
 
@@ -104,7 +152,6 @@ class EditProfileActivity : AppCompatActivity() {
                     // Optionnellement, vous pouvez terminer l'activité si vous voulez revenir en arrière
                     finish()
                 } else {
-                    // Afficher l'erreur complète dans un AlertDialog
                     val errorBody = response.errorBody()?.string()
                     Log.e("API Error", "Erreur : $errorBody")
 
@@ -119,11 +166,9 @@ class EditProfileActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
+                hideLoading()
                 Toast.makeText(this@EditProfileActivity, "Erreur de connexion : ${t.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         })
     }
-
-
-
 }

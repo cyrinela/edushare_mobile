@@ -10,8 +10,11 @@ import retrofit2.http.*
 
 interface ResourceApi {
 
-    @GET("/categories")  // Remplacez par l'URL de votre endpoint
-    fun getCategories(): Call<List<Category>>  // Liste des objets Category
+    @GET("ressources/category/{categoryId}")
+    fun getResourcesByCategory(@Path("categoryId") categoryId: Int): Call<List<Resource>>
+
+    @GET("/categories")
+    fun getCategories(): Call<List<Category>>
 
     @DELETE("categories/delete/{id}")
     fun deleteCategory(@Path("id") id: Int): Call<Void>

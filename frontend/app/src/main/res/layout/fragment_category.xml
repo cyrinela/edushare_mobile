@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-    <!-- Titre "Categories" en haut -->
 
-    <!-- Titre "Categories" en haut -->
     <TextView
         android:id="@+id/categoriesTitle"
         android:layout_width="match_parent"
