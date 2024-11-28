@@ -1,6 +1,7 @@
 package iset.project.GsUser.controllers;
 
 import iset.project.GsUser.entities.User;
+import iset.project.GsUser.entities.UserWithoutRole;
 import iset.project.GsUser.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,8 @@ public class AuthController {
                     .body("Utilisateur non trouvé");
         }
     }
+
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
@@ -88,6 +91,32 @@ public class AuthController {
             return ResponseEntity.status(404).body(new ErrorResponse("Utilisateur introuvable avec cet email."));
         }
     }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUserProfile(
+            @PathVariable("id") Long userId,
+            @RequestBody UserWithoutRole updatedUser) {
+
+        // Trouver l'utilisateur par ID
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            // Mettre à jour les informations de l'utilisateur
+            user.setFullname(updatedUser.getFullname());
+            user.setEmail(updatedUser.getEmail());
+            user.setPassword(updatedUser.getPassword()); // Si le mot de passe est mis à jour
+
+            // Sauvegarder l'utilisateur mis à jour dans la base de données
+            userRepository.save(user);
+
+            return ResponseEntity.ok(user);  // Retourner l'utilisateur mis à jour
+        } else {
+            return ResponseEntity.notFound().build();  // Si l'utilisateur n'est pas trouvé
+        }
+    }
+
+
+
 
     // Classes de réponse
     public class SuccessResponse {
@@ -152,4 +181,5 @@ public class AuthController {
             return userId;
         }
     }
+
 }
