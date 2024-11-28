@@ -33,12 +33,12 @@
         android:textSize="18sp"
         android:paddingBottom="16dp" />
 
-    <!-- Bouton de déconnexion -->
+    <!-- Bouton pour éditer le profil -->
     <Button
-        android:id="@+id/logoutButton"
+        android:id="@+id/editProfileButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Se Déconnecter"
-        android:onClick="onLogoutClick" />
+        android:text="Éditer le Profil"
+        android:onClick="onEditProfileClick" />
 
 </LinearLayout>

@@ -22,7 +22,7 @@ class AdminProfileFragment : Fragment() {
 
     private lateinit var fullnameTextView: TextView
     private lateinit var emailTextView: TextView
-    private lateinit var logoutButton: Button
+    private lateinit var editProfileButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +33,7 @@ class AdminProfileFragment : Fragment() {
         // Initialisation des vues
         fullnameTextView = view.findViewById(R.id.adminNameTextView)
         emailTextView = view.findViewById(R.id.adminEmailTextView)
-        logoutButton = view.findViewById(R.id.logoutButton)
+        editProfileButton = view.findViewById(R.id.editProfileButton)
 
         // Récupérer l'ID administrateur depuis SharedPreferences
         val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
@@ -47,8 +47,8 @@ class AdminProfileFragment : Fragment() {
         }
 
         // Bouton de déconnexion
-        logoutButton.setOnClickListener {
-            logoutUser()
+        editProfileButton.setOnClickListener {
+            editProfile()
         }
 
         return view
@@ -81,16 +81,8 @@ class AdminProfileFragment : Fragment() {
         })
     }
 
-    private fun logoutUser() {
-        // Effacer les données de session
-        val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()  // Efface les données de session de l'utilisateur
-        editor.apply()
-
-        // Rediriger vers l'écran de connexion
-        val intent = Intent(requireContext(), LoginActivity::class.java)
+    private fun editProfile() {
+        val intent = Intent(requireActivity(), EditProfileActivity::class.java)
         startActivity(intent)
-        requireActivity().finish()  // Fermer l'activité pour empêcher de revenir
     }
 }
