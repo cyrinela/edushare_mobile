@@ -31,6 +31,12 @@ public class RessourceController {
     private RessourceService ressourceService;
 
 
+    // Méthode pour récupérer les ressources par catégorie
+    @GetMapping("/category/{categoryId}")
+    public List<Ressource> getResourcesByCategory(@PathVariable int categoryId) {
+        return ressourceService.getResourcesByCategory(categoryId);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<Ressource>> searchResources(
             @RequestParam(required = false) String query,
