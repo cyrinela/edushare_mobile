@@ -22,7 +22,8 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
             "JOIN r.fileMetaData f")
     List<ResourceDto> findAllResourcesWithCategoryAndFile();
 
-
+    // Méthode pour récupérer les ressources par ID de catégorie
+    List<Ressource> findByCategorieId(int categorieId);
     List<Ressource> findByUserId(Long userId);
 
 }

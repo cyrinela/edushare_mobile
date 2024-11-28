@@ -1,6 +1,6 @@
 package iset.dsi.myapplication
-import android.annotation.SuppressLint
 import iset.dsi.myapplication.admin.EditProfileActivity
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,13 +16,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 class ProfileFragment : Fragment() {
 
-    private val BASE_URL = "http://192.168.227.34:8085"//"http://172.20.10.6:8085" // Remplacez par votre URL backend
+    private val BASE_URL = "http://172.20.10.6:8085"//"http://172.20.10.6:8085" // Remplacez par votre URL backend
 
     private lateinit var fullnameTextView: TextView
     private lateinit var emailTextView: TextView
-    private lateinit var editProfileButton: Button  // Renommé en bouton d'édition
+    private lateinit var editProfileButton: Button
+
+    private var userId: Long = -1L // Variable pour stocker l'ID de l'utilisateur
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -34,11 +37,11 @@ class ProfileFragment : Fragment() {
         // Initialisation des vues
         fullnameTextView = view.findViewById(R.id.fullnameTextView)
         emailTextView = view.findViewById(R.id.emailTextView)
-        editProfileButton = view.findViewById(R.id.editButton)  // Le bouton devient pour l'édition
+        editProfileButton = view.findViewById(R.id.editButton)
 
         // Récupérer l'ID utilisateur depuis SharedPreferences
         val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        val userId = sharedPreferences.getLong("USER_ID", -1)
+        userId = sharedPreferences.getLong("USER_ID", -1)
 
         if (userId != -1L) {
             // Charger les informations utilisateur
@@ -47,7 +50,7 @@ class ProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "Aucun utilisateur connecté", Toast.LENGTH_LONG).show()
         }
 
-        // Bouton pour l'édition du profil (au lieu de déconnexion)
+        // Bouton pour l'édition du profil
         editProfileButton.setOnClickListener {
             editProfile()
         }
@@ -88,7 +91,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun editProfile() {
+        // Lancer l'activité d'édition du profil
         val intent = Intent(requireActivity(), EditProfileActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent, 100) // Code de demande pour l'activité
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 100 && resultCode == android.app.Activity.RESULT_OK) {
+            // Si la mise à jour a réussi, recharger le profil
+            fetchUserProfile(userId)
+        }
     }
 }
