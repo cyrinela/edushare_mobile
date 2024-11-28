@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import iset.dsi.myapplication.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,10 +17,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterActivity : AppCompatActivity() {
 
-    private val BASE_URL  =  "http://172.20.10.6:8085"
-    //"http://192.168.27.34:8100"
+    // URL de base du backend
+    private val BASE_URL = "http://172.20.10.6:8085"
 
-    // Déclarations des éléments du layout
+    // Déclarations des éléments d'interface
     private lateinit var fullnameEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -33,36 +32,67 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Initialisation des éléments du layout
+        // Initialisation des éléments d'interface
+        initUI()
+
+        // Configuration du Spinner pour les rôles
+        setupRoleSpinner()
+
+        // Gestion du clic sur le bouton "S'inscrire"
+        registerButton.setOnClickListener { handleRegisterClick() }
+    }
+
+    // Méthode pour initialiser les éléments d'interface
+    private fun initUI() {
         fullnameEditText = findViewById(R.id.fullnameEditText)
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         roleSpinner = findViewById(R.id.roleSpinner)
         registerButton = findViewById(R.id.registerButton)
+    }
 
-        // Initialisation du Spinner pour les rôles
+    // Méthode pour configurer le Spinner des rôles
+    private fun setupRoleSpinner() {
         val roles = arrayOf("STUDENT", "ADMIN")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         roleSpinner.adapter = adapter
+    }
 
-        // Gestion du clic sur le bouton d'inscription
-        registerButton.setOnClickListener {
-            val fullname = fullnameEditText.text.toString().trim()
-            val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
-            val role = roleSpinner.selectedItem.toString() // Récupérer le rôle sélectionné
+    // Gestion du clic sur le bouton d'inscription
+    private fun handleRegisterClick() {
+        val fullname = fullnameEditText.text.toString().trim()
+        val email = emailEditText.text.toString().trim()
+        val password = passwordEditText.text.toString().trim()
+        val role = roleSpinner.selectedItem.toString()
 
-            // Vérification que tous les champs sont remplis
-            if (fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                val user = User(fullname, email, password, role) // Créer un utilisateur avec le rôle
-                registerUser(user)  // Appeler la méthode pour enregistrer l'utilisateur
-            } else {
-                Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
-            }
+        // Validation des champs
+        if (validateInput(fullname, email, password)) {
+            val user = User(fullname = fullname, email = email, password = password, role = role)
+            registerUser(user)
         }
     }
 
+    // Méthode pour valider les champs de saisie
+    private fun validateInput(fullname: String, email: String, password: String): Boolean {
+        return when {
+            fullname.isEmpty() -> {
+                showToast("Le nom complet est requis.")
+                false
+            }
+            email.isEmpty() -> {
+                showToast("L'email est requis.")
+                false
+            }
+            password.isEmpty() -> {
+                showToast("Le mot de passe est requis.")
+                false
+            }
+            else -> true
+        }
+    }
+
+    // Méthode pour enregistrer un utilisateur
     private fun registerUser(user: User) {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -77,23 +107,37 @@ class RegisterActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val registerResponse = response.body()
                     if (registerResponse != null) {
-                        Toast.makeText(this@RegisterActivity, registerResponse.message, Toast.LENGTH_LONG).show()
-                        // Redirection vers la page de connexion après succès
-                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                        startActivity(intent)
+                        showToast(registerResponse.message)
+                        navigateToLogin()
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Réponse vide du serveur", Toast.LENGTH_LONG).show()
+                        showToast("Réponse vide du serveur.")
                     }
                 } else {
-                    val errorBody = response.errorBody()?.string()
-                    Toast.makeText(this@RegisterActivity, "Erreur: $errorBody", Toast.LENGTH_LONG).show()
+                    handleError(response)
                 }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                Toast.makeText(this@RegisterActivity, "Erreur de connexion: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+                showToast("Erreur de connexion: ${t.localizedMessage}")
             }
         })
     }
 
+    // Méthode pour gérer les erreurs du serveur
+    private fun handleError(response: Response<RegisterResponse>) {
+        val errorBody = response.errorBody()?.string()
+        showToast("Erreur: $errorBody")
+    }
+
+    // Méthode pour afficher un Toast
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    // Méthode pour naviguer vers l'écran de connexion
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

@@ -25,6 +25,10 @@ data class SuccessResponse(
 
 
 interface ApiService {
+
+    @GET("/auth/users/{id}")
+    fun getUserById(@Path("id") id: Long): Call<User>
+
     @GET("/auth/logout")
     fun logout(): Call<SuccessResponse>
 

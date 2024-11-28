@@ -93,6 +93,16 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val user = response.body()
                     if (user != null) {
+                        // Enregistrer l'ID utilisateur dans SharedPreferences
+                        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+
+                          // Vérification que user.id n'est pas null
+                        val userId = user.id ?: -1L // Utilise -1 comme valeur par défaut si l'ID est null
+                        editor.putLong("USER_ID", userId) // Enregistrement de l'ID utilisateur
+                        editor.apply()
+
+
                         // Rediriger en fonction du rôle
                         when (user.role) {
                             "ADMIN" -> {
@@ -122,4 +132,5 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
 }
