@@ -101,24 +101,25 @@ public class RessourceController {
     }
 
 
-    @PostMapping(path = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> create(@RequestPart(name = "ressource") String ressourceJson,
                                          @RequestPart(name = "file") MultipartFile file) throws IOException {
         try {
-            // Deserialize the ressource JSON to a Ressource object
+            // Désérialisation de l'objet JSON Ressource
             ObjectMapper objectMapper = new ObjectMapper();
             Ressource ressource = objectMapper.readValue(ressourceJson, Ressource.class);
 
-            // Check if file is not empty and pass both ressource and file to save method
+            // Vérifier si le fichier n'est pas vide et enregistrer la ressource avec le fichier
             if (ressourceService.save(ressource, file)) {
-                return ResponseEntity.ok("Ressource saved successfully");
+                return ResponseEntity.ok("Ressource enregistrée avec succès");
             } else {
-                return ResponseEntity.status(500).body("Error occurred while saving the resource");
+                return ResponseEntity.status(500).body("Erreur lors de l'enregistrement de la ressource");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(400).body("Invalid data: " + e.getMessage());
+            return ResponseEntity.status(400).body("Données invalides : " + e.getMessage());
         }
     }
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Ressource>> getResourcesByUser(@PathVariable Long userId) {

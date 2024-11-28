@@ -132,16 +132,18 @@ public class RessourceService {
     }
 
 
-    public Boolean save(Ressource ressource,MultipartFile file) throws IOException {
-        String FileUrlId = uploadFileData(file); // upload File to mongodb
-        FileMetaData savedMeta = uploadFileMeta(file,FileUrlId); // upload FileMeta to MySQL
+    public Boolean save(Ressource ressource, MultipartFile file) throws IOException {
+        String FileUrlId = uploadFileData(file); // Upload du fichier dans MongoDB
+        FileMetaData savedMeta = uploadFileMeta(file, FileUrlId); // Enregistrement des métadonnées dans MySQL
+
         if (savedMeta != null && FileUrlId != null) {
-            ressource.setFileMetaData(savedMeta); // link fileMeta to ressource table
-            ressourceRepository.save(ressource);
+            ressource.setFileMetaData(savedMeta); // Lier les métadonnées à la ressource
+            ressourceRepository.save(ressource); // Enregistrer la ressource avec userId
             return true;
         }
         return false;
     }
+
 
     FileMetaData uploadFileMeta(MultipartFile file,String FileUrlId) {
         try {

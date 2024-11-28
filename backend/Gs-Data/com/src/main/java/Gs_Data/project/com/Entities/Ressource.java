@@ -32,7 +32,7 @@ public class Ressource {
 
   //  @ManyToOne
    // @JoinColumn(name = "user_id") // Association avec l'utilisateur
-    private Long userId=1L;
+    private Long userId;
 
     @CreationTimestamp
     private LocalDateTime creeLe;
