@@ -3,9 +3,10 @@ package iset.project.GsUser.controllers;
 import iset.project.GsUser.entities.User;
 import iset.project.GsUser.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController
@@ -27,17 +28,45 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse("Utilisateur enregistré avec succès !"));
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
         User existingUser = userRepository.findByEmail(user.getEmail()).orElse(null);
 
         if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
             return ResponseEntity.badRequest().body(new ErrorResponse("Identifiants invalides !"));
         }
 
-        return ResponseEntity.ok(new SuccessResponse("Connexion réussie !"));
+        // Enregistrer l'ID utilisateur dans la session
+        session.setAttribute("userId", existingUser.getId());
+
+        // Retourner un message et l'ID utilisateur
+        return ResponseEntity.ok(new LoginResponse("Connexion réussie !", existingUser.getId()));
     }
+
+    @GetMapping("/current-user")
+    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Aucun utilisateur authentifié !"));
+        }
+
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(404).body(new ErrorResponse("Utilisateur introuvable !"));
+        }
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/logout")
+    public ResponseEntity<SuccessResponse> logout(HttpSession session) {
+        session.invalidate();  // Détruire la session
+        return ResponseEntity.ok(new SuccessResponse("Déconnexion réussie !"));
+    }
+
+
 
     @GetMapping("/users/email/{email}")
     public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
@@ -50,21 +79,29 @@ public class AuthController {
         }
     }
 
-    // SuccessResponse class
+    // Classes de réponse
     public class SuccessResponse {
+
         private String message;
 
+        // Constructeur
         public SuccessResponse(String message) {
             this.message = message;
         }
 
+        // Getter
         public String getMessage() {
             return message;
         }
+
+        // Setter
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 
-    // ErrorResponse class
-    public class ErrorResponse {
+
+    public static class ErrorResponse {
         private String error;
 
         public ErrorResponse(String error) {
@@ -76,7 +113,7 @@ public class AuthController {
         }
     }
 
-    public class ApiResponse {
+    public static class ApiResponse {
         private String message;
 
         public ApiResponse(String message) {
@@ -86,9 +123,23 @@ public class AuthController {
         public String getMessage() {
             return message;
         }
+    }
 
-        public void setMessage(String message) {
+    public static class LoginResponse {
+        private String message;
+        private Long userId;
+
+        public LoginResponse(String message, Long userId) {
             this.message = message;
+            this.userId = userId;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public Long getUserId() {
+            return userId;
         }
     }
 }
