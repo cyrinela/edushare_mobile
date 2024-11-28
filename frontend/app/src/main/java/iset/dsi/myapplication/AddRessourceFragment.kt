@@ -1,4 +1,5 @@
 package iset.dsi.myapplication
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -113,11 +114,21 @@ class AddRessourceFragment : Fragment() {
         val categoryId = categoryMap[selectedCategory] ?: return
         val file = createTemporaryFileFromUri(requireContext(), fileUri)
 
+        // Récupérer l'ID utilisateur depuis SharedPreferences
+        val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getLong("USER_ID", -1)
+
+        if (userId == -1L) {
+            Toast.makeText(requireContext(), "Utilisateur non authentifié", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val resourceJson = """
             {
                 "nom": "$name",
                 "description": "$description",
-                "categorie": {"id": $categoryId}
+                "categorie": {"id": $categoryId},
+                "userId": $userId
             }
         """.trimIndent().toRequestBody("application/json".toMediaTypeOrNull())
 
@@ -137,6 +148,7 @@ class AddRessourceFragment : Fragment() {
                     Toast.makeText(requireContext(), "Ressource ajoutée avec succès", Toast.LENGTH_SHORT).show()
                     resetForm()
                 } else {
+                    Log.e("AddResource", "Erreur lors de l'ajout de la ressource : ${response.errorBody()?.string()}")
                     Toast.makeText(requireContext(), "Erreur lors de l'ajout de la ressource", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
@@ -158,9 +170,22 @@ class AddRessourceFragment : Fragment() {
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             selectedFileUri = data?.data
             selectedFileUri?.let {
-                fileEditText.setText(it.path)
+                val fileName = getFileName(it)
+                fileEditText.setText(fileName)
             }
         }
+    }
+
+    private fun getFileName(uri: Uri): String {
+        var fileName = ""
+        val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            val columnIndex = it.getColumnIndex(android.provider.MediaStore.Images.Media.DISPLAY_NAME)
+            if (columnIndex != -1 && it.moveToFirst()) {
+                fileName = it.getString(columnIndex)
+            }
+        }
+        return fileName
     }
 
     private fun createTemporaryFileFromUri(context: Context, uri: Uri): File {
