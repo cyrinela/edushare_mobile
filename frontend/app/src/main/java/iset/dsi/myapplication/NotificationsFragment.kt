@@ -1,6 +1,7 @@
 package iset.dsi.myapplication
 
 import ResourceApi
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,8 @@ class NotificationsFragment : Fragment() {
 
     private lateinit var notificationRecyclerView: RecyclerView
     private lateinit var notificationApi: NotificationApi
+    private lateinit var notificationAdapter: NotificationAdapter
+    private val notifications = mutableListOf<Notification>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,9 +32,7 @@ class NotificationsFragment : Fragment() {
 
         // Initialisation de Retrofit
         val retrofit = Retrofit.Builder()
-
-            //""http://172.20.10.6:8100
-            .baseUrl("http://192.168.227.34:8100") // Remplace par l'URL de ton API
+            .baseUrl("http://192.168.227.34:8100") // Remplacer par l'URL de votre API
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -42,28 +43,40 @@ class NotificationsFragment : Fragment() {
 
         // Configuration RecyclerView
         notificationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        notificationRecyclerView.adapter = NotificationAdapter(fetchNotifications())
+
+        // Adapter pour les notifications
+        notificationAdapter = NotificationAdapter(notifications)
+        notificationRecyclerView.adapter = notificationAdapter
+
+        // Charger les notifications pour l'utilisateur authentifié
+        fetchNotifications()
 
         return rootView
     }
 
-    private fun fetchNotifications(): List<Notification> {
-        // Exemple de récupération de notifications via l'API (si une méthode API existe)
-        val notifications = mutableListOf<Notification>()
-        val call = notificationApi.getNotificationsByUser(1) // Utiliser un ID utilisateur valide
-        call.enqueue(object : Callback<List<Notification>> {
-            override fun onResponse(call: Call<List<Notification>>, response: Response<List<Notification>>) {
-                if (response.isSuccessful) {
-                    notifications.addAll(response.body() ?: emptyList())
-                    // Actualiser l'adaptateur après avoir récupéré les notifications
-                    notificationRecyclerView.adapter?.notifyDataSetChanged()
-                }
-            }
+    // Charger les notifications pour l'utilisateur authentifié
+    private fun fetchNotifications() {
+        // Récupérer l'ID de l'utilisateur authentifié depuis SharedPreferences
+        val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getLong("USER_ID", -1)
 
-            override fun onFailure(call: Call<List<Notification>>, t: Throwable) {
-                // Gérer l'erreur si la requête échoue
-            }
-        })
-        return notifications
+        if (userId != -1L) {
+            val call = notificationApi.getNotificationsByUser(userId)
+            call.enqueue(object : Callback<List<Notification>> {
+                override fun onResponse(call: Call<List<Notification>>, response: Response<List<Notification>>) {
+                    if (response.isSuccessful) {
+                        notifications.clear()
+                        notifications.addAll(response.body() ?: emptyList())
+                        notificationAdapter.notifyDataSetChanged() // Mettre à jour l'adaptateur
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Notification>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Erreur de connexion : ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
+        } else {
+            Toast.makeText(requireContext(), "Utilisateur non authentifié", Toast.LENGTH_SHORT).show()
+        }
     }
 }
