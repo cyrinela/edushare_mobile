@@ -199,4 +199,10 @@ public class RessourceService {
     }
 
 
+    public List<Ressource> findByUserId(Long userId) {
+        return ressourceRepository.findByUserId(userId); // Assurez-vous que le repository dispose de cette méthode.
+    }
+
+
+
 }

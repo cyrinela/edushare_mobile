@@ -55,5 +55,11 @@ interface ResourceApi {
     fun getNotifications(): Call<List<Notification>>
 
 
+    @GET("ressources/user/{userId}")
+    fun getResourcesByUser(@Path("userId") userId: Long): Call<List<Resource>>
+
+
 }
+
+
 

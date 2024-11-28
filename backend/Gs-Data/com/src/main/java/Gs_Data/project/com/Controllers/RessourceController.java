@@ -119,4 +119,11 @@ public class RessourceController {
             return ResponseEntity.status(400).body("Invalid data: " + e.getMessage());
         }
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Ressource>> getResourcesByUser(@PathVariable Long userId) {
+        List<Ressource> userResources = ressourceService.findByUserId(userId);
+        return ResponseEntity.ok(userResources);
+    }
+
 }

@@ -23,4 +23,6 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
     List<ResourceDto> findAllResourcesWithCategoryAndFile();
 
 
+    List<Ressource> findByUserId(Long userId);
+
 }
