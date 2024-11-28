@@ -1,5 +1,6 @@
 package iset.dsi.myapplication
-
+import android.annotation.SuppressLint
+import iset.dsi.myapplication.admin.EditProfileActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,15 +16,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 class ProfileFragment : Fragment() {
 
     private val BASE_URL = "http://172.20.10.6:8085" // Remplacez par votre URL backend
 
     private lateinit var fullnameTextView: TextView
     private lateinit var emailTextView: TextView
-    private lateinit var logoutButton: Button
+    private lateinit var editProfileButton: Button  // Renommé en bouton d'édition
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +34,7 @@ class ProfileFragment : Fragment() {
         // Initialisation des vues
         fullnameTextView = view.findViewById(R.id.fullnameTextView)
         emailTextView = view.findViewById(R.id.emailTextView)
-        logoutButton = view.findViewById(R.id.logoutButton)
+        editProfileButton = view.findViewById(R.id.editButton)  // Le bouton devient pour l'édition
 
         // Récupérer l'ID utilisateur depuis SharedPreferences
         val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
@@ -46,9 +47,9 @@ class ProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "Aucun utilisateur connecté", Toast.LENGTH_LONG).show()
         }
 
-        // Bouton de déconnexion
-        logoutButton.setOnClickListener {
-            logoutUser()
+        // Bouton pour l'édition du profil (au lieu de déconnexion)
+        editProfileButton.setOnClickListener {
+            editProfile()
         }
 
         return view
@@ -86,16 +87,8 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun logoutUser() {
-        // Effacer les données de session
-        val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
-
-        // Rediriger vers l'écran de connexion
-        val intent = Intent(requireContext(), LoginActivity::class.java)
+    private fun editProfile() {
+        val intent = Intent(requireActivity(), EditProfileActivity::class.java)
         startActivity(intent)
-        requireActivity().finish()
     }
 }
