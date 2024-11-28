@@ -49,9 +49,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/logoutButton"
-                android:text="Déconnexion"
+                android:id="@+id/editButton"
+                android:text="Modifier le profil"
                 android:layout_marginTop="16dp"/>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

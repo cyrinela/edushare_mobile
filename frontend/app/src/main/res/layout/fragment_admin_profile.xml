@@ -1,15 +1,44 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:padding="16dp">
 
+    <!-- Titre du profil -->
     <TextView
-        android:id="@+id/admin_profile_text"
+        android:id="@+id/profileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Page du profil de l'admin"
+        android:text="Profil Administrateur"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
+    <!-- Affichage du nom de l'administrateur -->
+    <TextView
+        android:id="@+id/adminNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nom:"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:paddingBottom="8dp" />
+
+    <!-- Affichage de l'email de l'administrateur -->
+    <TextView
+        android:id="@+id/adminEmailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email: "
+        android:textSize="18sp"
+        android:paddingBottom="16dp" />
+
+    <!-- Bouton pour éditer le profil -->
+    <Button
+        android:id="@+id/editProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Éditer le Profil"
+        android:onClick="onEditProfileClick" />
+
 </LinearLayout>
