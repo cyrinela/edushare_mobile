@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RegisterActivity : AppCompatActivity() {
 
     // URL de base du backend
-    private val BASE_URL = "http://172.20.10.6:8085"
+    private val BASE_URL = "http://192.168.227.34:8085"
 
     // Déclarations des éléments d'interface
     private lateinit var fullnameEditText: EditText
