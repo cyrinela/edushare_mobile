@@ -1,5 +1,7 @@
 package iset.dsi.myapplication
+
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +25,7 @@ class MyRessourcesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_myressources, container, false)
-        var categoryId: Int = 0
+
         // Initialisation de la RecyclerView
         myResourcesRecyclerView = view.findViewById(R.id.myResourcesRecyclerView)
         myResourcesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -40,38 +42,39 @@ class MyRessourcesFragment : Fragment() {
             }
         )
         myResourcesRecyclerView.adapter = myResourcesAdapter
-        categoryId = arguments?.getInt("CATEGORY_ID") ?: 0
+
         // Charger les ressources depuis le backend
         fetchResources()
 
         return view
     }
 
-    // Charger les ressources depuis l'API
+    // Charger les ressources de l'utilisateur authentifié depuis l'API
     private fun fetchResources() {
-        RetrofitInstance.api.getResources().enqueue(object : Callback<List<Resource>> {
-            override fun onResponse(
-                call: Call<List<Resource>>,
-                response: Response<List<Resource>>
-            ) {
-                if (response.isSuccessful) {
-                    resources.clear()
-                    response.body()?.let { resources.addAll(it) }
-                    myResourcesAdapter.notifyDataSetChanged()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Erreur de chargement des ressources",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+        // Récupérer l'ID utilisateur depuis SharedPreferences
+        val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getLong("USER_ID", -1)
 
-            override fun onFailure(call: Call<List<Resource>>, t: Throwable) {
-                Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        })
+        if (userId != -1L) {
+            // Récupérer les ressources de l'utilisateur authentifié
+            RetrofitInstance.api.getResourcesByUser(userId).enqueue(object : Callback<List<Resource>> {
+                override fun onResponse(call: Call<List<Resource>>, response: Response<List<Resource>>) {
+                    if (response.isSuccessful) {
+                        resources.clear()
+                        response.body()?.let { resources.addAll(it) }
+                        myResourcesAdapter.notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(requireContext(), "Erreur de chargement des ressources", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Resource>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            Toast.makeText(requireContext(), "Utilisateur non authentifié", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Ouvrir le DialogFragment pour éditer une ressource
@@ -85,8 +88,7 @@ class MyRessourcesFragment : Fragment() {
 
         val dialog = EditResourceDialogFragment().apply {
             arguments = bundle
-            setOnResourceUpdatedListener(object :
-                EditResourceDialogFragment.OnResourceUpdatedListener {
+            setOnResourceUpdatedListener(object : EditResourceDialogFragment.OnResourceUpdatedListener {
                 override fun onResourceUpdated() {
                     fetchResources() // Recharge les ressources après l'édition
                 }
@@ -103,31 +105,18 @@ class MyRessourcesFragment : Fragment() {
                     if (response.isSuccessful) {
                         resources.remove(resource)
                         myResourcesAdapter.notifyDataSetChanged()
-                        Toast.makeText(
-                            requireContext(),
-                            "Ressource supprimée avec succès",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "Ressource supprimée avec succès", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Erreur lors de la suppression",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "Erreur lors de la suppression", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Erreur réseau : ${t.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } ?: run {
-            Toast.makeText(requireContext(), "ID de la ressource introuvable", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(requireContext(), "ID de la ressource introuvable", Toast.LENGTH_SHORT).show()
         }
     }
 
