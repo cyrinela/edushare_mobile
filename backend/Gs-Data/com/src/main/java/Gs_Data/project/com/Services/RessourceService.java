@@ -223,4 +223,14 @@ public class RessourceService {
         }
         return null;
     }
+
+    public List<Ressource> searchResourcesByName(String query) {
+        if (query == null || query.isEmpty()) {
+            return ressourceRepository.findAll();  // Si la requête est vide, retourne toutes les ressources
+        } else {
+            return ressourceRepository.findByNomContainingIgnoreCase(query); // Recherche par nom
+        }
+    }
+
+
 }

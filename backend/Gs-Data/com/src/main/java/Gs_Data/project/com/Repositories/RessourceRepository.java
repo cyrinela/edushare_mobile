@@ -28,4 +28,12 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 
     long count();
 
+    // Recherche des ressources dont le nom contient la chaîne 'query' (insensible à la casse)
+
+
+        // Recherche par nom (nom au lieu de name)
+        List<Ressource> findByNomContainingIgnoreCase(String query);
+        
+
+
 }
