@@ -210,6 +210,10 @@ public class RessourceService {
         return ressourceRepository.findByUserId(userId); // Assurez-vous que le repository dispose de cette méthode.
     }
 
+    public long getTotalResourcesCount() {
+        return ressourceRepository.count(); // Compte toutes les ressources
+    }
+
     public FileMetaData getFileMetaDataByResourceId(Long resourceId) {
         Ressource ressource = findById(resourceId);
         if (ressource != null) {
@@ -218,6 +222,13 @@ public class RessourceService {
         return null;
     }
 
+    public List<Ressource> searchResourcesByName(String query) {
+        if (query == null || query.isEmpty()) {
+            return ressourceRepository.findAll();  // Si la requête est vide, retourne toutes les ressources
+        } else {
+            return ressourceRepository.findByNomContainingIgnoreCase(query); // Recherche par nom
+        }
+    }
 
 
 }

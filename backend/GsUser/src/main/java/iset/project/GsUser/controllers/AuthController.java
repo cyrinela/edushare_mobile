@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -182,4 +184,27 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return userRepository.findByRoleNot("ADMIN");
+    }
+
+    // Endpoint pour supprimer un utilisateur par son ID
+    // Endpoint pour supprimer un utilisateur par son ID
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        // Vérifier si l'utilisateur existe dans la base de données
+        if (userRepository.existsById(id)) {
+            // Supprimer l'utilisateur
+            userRepository.deleteById(id);
+            return ResponseEntity.ok("Utilisateur supprimé avec succès.");
+        } else {
+            return ResponseEntity.status(404).body("Utilisateur non trouvé.");
+        }
+    }
+    @GetMapping("/total-users")
+    public ResponseEntity<Long> getTotalUsersCount() {
+        long totalUsers = userRepository.count();  // Compte les utilisateurs directement dans le contrôleur
+        return ResponseEntity.ok(totalUsers);  // Renvoie le nombre total d'utilisateurs
+    }
 }

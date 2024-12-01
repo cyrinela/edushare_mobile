@@ -31,6 +31,12 @@ public class RessourceController {
     @Autowired
     private RessourceService ressourceService;
 
+    // Endpoint pour récupérer le nombre de ressources disponibles
+    @GetMapping("/total-resources")
+    public ResponseEntity<Long> getTotalResourcesCount() {
+        long totalResources = ressourceService.getTotalResourcesCount(); // Appelle le service
+        return ResponseEntity.ok(totalResources);
+    }
 
     // Méthode pour récupérer les ressources par catégorie
     @GetMapping("/category/{categoryId}")
@@ -40,11 +46,12 @@ public class RessourceController {
 
     @GetMapping("/search")
     public ResponseEntity<List<Ressource>> searchResources(
-            @RequestParam(required = false) String query,
-            @RequestParam (defaultValue = "false", required = false) Boolean searchCategorie) {
-        List<Ressource> resources = ressourceService.searchResources(query,searchCategorie);
+            @RequestParam(required = false) String query) {
+        List<Ressource> resources = ressourceService.searchResourcesByName(query);  // Utilisation de la méthode du service
         return ResponseEntity.ok(resources);
     }
+
+
     @GetMapping
     public List<Ressource> getAll() {
         return ressourceService.findAll();

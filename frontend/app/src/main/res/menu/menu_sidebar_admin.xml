@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Group d'éléments du sidebar -->
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_resources_admin"
+            android:icon="@drawable/ic_categories"
+            android:title="Categories" />
+
+        <item
+            android:id="@+id/nav_ressources_admin"
+            android:icon="@drawable/ic_resources"
+            android:title="Ressources" />
+
+
+        <item
+            android:id="@+id/gs_users"
+            android:icon="@drawable/ic_users"
+            android:title="Users" />
+
+    </group>
+
+</menu>
