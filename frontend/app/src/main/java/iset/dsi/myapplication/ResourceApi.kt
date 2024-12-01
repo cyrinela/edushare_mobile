@@ -12,6 +12,15 @@ import retrofit2.http.*
 
 interface ResourceApi {
 
+    // Endpoint pour récupérer le nombre total de catégories
+    @GET("/categories/total-categories")
+    fun getTotalCategoriesCount(): Call<Long>
+
+    // Endpoint pour récupérer le nombre total de ressources
+    @GET("ressources/total-resources")
+    fun getTotalResourcesCount(): Call<Long>
+
+
     @GET("ressources/category/{categoryId}")
     fun getResourcesByCategory(@Path("categoryId") categoryId: Int): Call<List<Resource>>
 
@@ -20,6 +29,7 @@ interface ResourceApi {
 
     @DELETE("categories/delete/{id}")
     fun deleteCategory(@Path("id") id: Int): Call<Void>
+
 
     @PUT("categories/update/{id}")
     fun updateCategory(@Path("id") id: Int, @Body resource: Category): Call<Category>
