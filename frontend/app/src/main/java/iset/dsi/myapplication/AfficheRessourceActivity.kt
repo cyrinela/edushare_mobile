@@ -1,5 +1,6 @@
 package iset.dsi.myapplication
 
+import android.app.DownloadManager
 import android.os.Bundle
 import android.util.Log  // Import nécessaire pour les logs
 import android.widget.ImageView
@@ -45,17 +46,24 @@ class AfficheRessourceActivity : AppCompatActivity() {
     private fun fetchResourcesByCategory(categoryId: Int) {
         val call = RetrofitInstance.api.getResourcesByCategory(categoryId)
         call.enqueue(object : Callback<List<Resource>> {
-            override fun onResponse(call: Call<List<Resource>>, response: Response<List<Resource>>) {
+            override fun onResponse(
+                call: Call<List<Resource>>,
+                response: Response<List<Resource>>
+            ) {
                 if (response.isSuccessful) {
                     val resources = response.body() ?: emptyList()
                     if (resources.isNotEmpty()) {
                         resourceAdapter = AfficheResourceAdapter(resources)
                         resourceRecyclerView.adapter = resourceAdapter
                     } else {
-                        showAlert("Aucune ressource trouvée", "Aucune ressource disponible pour cette catégorie.")
+                        showAlert(
+                            "Aucune ressource trouvée",
+                            "Aucune ressource disponible pour cette catégorie."
+                        )
                     }
                 } else {
-                    val errorMessage = "Erreur ${response.code()} : ${response.errorBody()?.string()}"
+                    val errorMessage =
+                        "Erreur ${response.code()} : ${response.errorBody()?.string()}"
                     showAlert("Erreur de chargement", errorMessage)
                 }
             }

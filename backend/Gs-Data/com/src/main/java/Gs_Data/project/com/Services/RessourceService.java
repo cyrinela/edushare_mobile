@@ -212,6 +212,14 @@ public class RessourceService {
         return ressourceRepository.findByUserId(userId); // Assurez-vous que le repository dispose de cette méthode.
     }
 
+    public FileMetaData getFileMetaDataByResourceId(Long resourceId) {
+        Ressource ressource = findById(resourceId);
+        if (ressource != null) {
+            return ressource.getFileMetaData();
+        }
+        return null;
+    }
+
 
 
 }

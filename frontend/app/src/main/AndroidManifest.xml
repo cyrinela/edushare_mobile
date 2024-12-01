@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:usesCleartextTraffic="true"
@@ -16,24 +19,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+
         <activity
             android:name=".admin.AdminDashboardActivity"
             android:exported="true" />
         <activity
             android:name="AfficheRessourceActivity"
             android:exported="true" />
-
         <activity android:name=".admin.EditProfileActivity" />
-
-        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
-        <!-- Register Activity -->
         <activity android:name=".RegisterActivity" />
-      <!--  <activity android:name=".LoginActivity" />-->
-        <!-- Login Activity -->
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -43,5 +40,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Configuration FileProvider -->
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 </manifest>

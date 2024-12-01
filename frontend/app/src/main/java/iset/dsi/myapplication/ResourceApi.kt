@@ -1,9 +1,11 @@
 import iset.dsi.myapplication.Category
+import iset.dsi.myapplication.FileMetaData
 import iset.dsi.myapplication.Notification
 import iset.dsi.myapplication.Resource
 import iset.dsi.myapplication.ResourceDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -60,6 +62,16 @@ interface ResourceApi {
 
     @GET("ressources/user/{userId}")
     fun getResourcesByUser(@Path("userId") userId: Long): Call<List<Resource>>
+
+
+
+    @GET("ressources/download/{fileId}")
+    fun downloadFile(@Path("fileId") fileId: Int): Call<ResponseBody>
+
+
+
+    @GET("ressources/{id}/metadata")
+    fun getResourceMetaData(@Path("id") resourceId: Int): Call<FileMetaData>
 
 
 }

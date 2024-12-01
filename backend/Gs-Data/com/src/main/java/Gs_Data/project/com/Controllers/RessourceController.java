@@ -1,5 +1,6 @@
 package Gs_Data.project.com.Controllers;
 
+import Gs_Data.project.com.Entities.FileMetaData;
 import Gs_Data.project.com.Entities.Ressource;
 import Gs_Data.project.com.Services.RessourceService;
 import Gs_Data.project.com.dto.ResourceDto;
@@ -132,5 +133,16 @@ public class RessourceController {
         List<Ressource> userResources = ressourceService.findByUserId(userId);
         return ResponseEntity.ok(userResources);
     }
+
+    @GetMapping("/{id}/metadata")
+    public ResponseEntity<FileMetaData> getFileMetaData(@PathVariable Long id) {
+        FileMetaData fileMetaData = ressourceService.getFileMetaDataByResourceId(id);
+        if (fileMetaData != null) {
+            return ResponseEntity.ok(fileMetaData);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 
 }

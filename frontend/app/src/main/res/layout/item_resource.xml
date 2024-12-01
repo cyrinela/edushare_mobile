@@ -30,5 +30,11 @@
             android:text="Description: Category Description"
             android:textSize="14sp"/>
 
+        <Button
+            android:id="@+id/downloadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Télécharger" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
