@@ -12,6 +12,13 @@ import retrofit2.http.*
 
 interface ResourceApi {
 
+    @GET("ressources/search")
+    fun searchResources(
+        @Query("query") query: String // Correspond au paramètre query dans l'URL
+    ): Call<List<Resource>>
+
+
+
     // Endpoint pour récupérer le nombre total de catégories
     @GET("/categories/total-categories")
     fun getTotalCategoriesCount(): Call<Long>

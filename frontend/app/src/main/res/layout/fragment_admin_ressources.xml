@@ -5,17 +5,30 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/admin_profile_text"
+    <!-- Barre de recherche -->
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Rechercher par nom"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:padding="10dp"
+        android:background="@drawable/rounded_edittext" />
+
+    <!-- Bouton de recherche -->
+    <Button
+        android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gestion des ressources"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:text="Lancer la recherche"
         android:layout_marginBottom="16dp" />
 
+    <!-- RecyclerView pour afficher les ressources -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/adminResourcesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>
