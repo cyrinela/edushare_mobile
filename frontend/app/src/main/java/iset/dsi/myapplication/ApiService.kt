@@ -3,6 +3,7 @@ package iset.dsi.myapplication
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -29,6 +30,17 @@ data class SuccessResponse(
 
 
 interface ApiService {
+
+    @GET("/auth/total-users")
+    fun getTotalUsersCount(): Call<Long>
+
+    @DELETE("/auth/users/{id}")
+    fun deleteUser(@Path("id") id: Long): Call<Void>
+
+    @GET("/auth/users")
+    fun getAllUsers(): Call<List<User>>
+
+
     @PUT("/auth/users/{id}")
     fun updateUserProfile(
         @Path("id") userId: Long,

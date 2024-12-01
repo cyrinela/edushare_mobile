@@ -26,4 +26,14 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
     List<Ressource> findByCategorieId(int categorieId);
     List<Ressource> findByUserId(Long userId);
 
+    long count();
+
+    // Recherche des ressources dont le nom contient la chaîne 'query' (insensible à la casse)
+
+
+        // Recherche par nom (nom au lieu de name)
+        List<Ressource> findByNomContainingIgnoreCase(String query);
+        
+
+
 }

@@ -40,7 +40,11 @@ public class CategorieService {
         }
         return false;
     }
-
+    // Méthode pour récupérer le nombre de catégories disponibles
+    // Méthode pour compter toutes les catégories
+    public long getTotalCategoriesCount() {
+        return categorieRepository.count(); // Compte toutes les catégories
+    }
     public Categorie save(Categorie categorie) {
         return categorieRepository.save(categorie);
     }

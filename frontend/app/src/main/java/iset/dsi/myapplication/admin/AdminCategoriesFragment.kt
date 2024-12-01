@@ -1,5 +1,6 @@
 package iset.dsi.myapplication.admin
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -78,22 +79,35 @@ class AdminCategoriesFragment : Fragment(R.layout.fragment_admin_categories) {
     }
 
     private fun deleteCategory(categoryId: Int) {
-        RetrofitInstance.api.deleteCategory(categoryId).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Catégorie supprimée", Toast.LENGTH_SHORT).show()
-                    // Rafraîchir la liste après suppression
-                    fetchCategories()
-                } else {
-                    Toast.makeText(requireContext(), "Erreur lors de la suppression", Toast.LENGTH_SHORT).show()
-                }
-            }
+        // Affichage de l'AlertDialog pour confirmer la suppression
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Voulez-vous vraiment supprimer cette catégorie ?")
+            .setPositiveButton("Oui") { _, _ ->
+                // Si l'utilisateur confirme, procéder à la suppression avec Retrofit
+                RetrofitInstance.api.deleteCategory(categoryId).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            // La catégorie a été supprimée avec succès
+                            Toast.makeText(requireContext(), "Catégorie supprimée", Toast.LENGTH_SHORT).show()
+                            // Rafraîchir la liste des catégories après suppression
+                            fetchCategories()
+                        } else {
+                            // Erreur lors de la suppression
+                            Toast.makeText(requireContext(), "Erreur lors de la suppression", Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(requireContext(), "Impossible de se connecter au serveur", Toast.LENGTH_SHORT).show()
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        // Afficher un message d'erreur en cas de problème de connexion
+                        Toast.makeText(requireContext(), "Impossible de se connecter au serveur", Toast.LENGTH_SHORT).show()
+                    }
+                })
             }
-        })
+            .setNegativeButton("Non", null)  // L'utilisateur annule la suppression
+            .create()
+            .show()
     }
+
 
     private fun openAddCategoryFragment() {
         val fragment = parentFragmentManager.findFragmentByTag("AddCategoryFragment")
