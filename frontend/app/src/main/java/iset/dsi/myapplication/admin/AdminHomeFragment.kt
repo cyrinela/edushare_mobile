@@ -2,6 +2,7 @@ package iset.dsi.myapplication.admin
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -17,6 +18,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.bumptech.glide.Glide
 
 class AdminHomeFragment : Fragment(R.layout.fragment_admin_home) {
 
@@ -26,6 +28,19 @@ class AdminHomeFragment : Fragment(R.layout.fragment_admin_home) {
 
         // Appeler la méthode pour récupérer les stats et mettre à jour l'UI
         fetchStats(view)
+
+        // Charger le GIF animé dans l'ImageView
+        loadGif(view)
+    }
+
+    private fun loadGif(view: View) {
+        val imageView = view.findViewById<ImageView>(R.id.admin_logo)
+
+        // Utilisation de Glide pour charger le GIF dans l'ImageView
+        Glide.with(this)
+            .asGif()  // Indique à Glide qu'il s'agit d'un GIF
+            .load(R.drawable.cccc)  // Remplace par le nom de ton GIF dans le dossier res/drawable
+            .into(imageView)
     }
 
     private fun fetchStats(view: View) {
@@ -63,7 +78,7 @@ class AdminHomeFragment : Fragment(R.layout.fragment_admin_home) {
     }
 
     private fun fetchTotalResources(view: View) {
-        val resourceApi = RetrofitInstance.api // Accédez à l'API via RetrofitInstance.api
+        val resourceApi = RetrofitInstance.api
         resourceApi.getTotalResourcesCount().enqueue(object : Callback<Long> {
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 if (response.isSuccessful) {
@@ -82,9 +97,8 @@ class AdminHomeFragment : Fragment(R.layout.fragment_admin_home) {
         })
     }
 
-
     private fun fetchTotalCategories(view: View) {
-        val resourceApi = RetrofitInstance.api // Utilisation correcte de RetrofitInstance
+        val resourceApi = RetrofitInstance.api
         resourceApi.getTotalCategoriesCount().enqueue(object : Callback<Long> {
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 if (response.isSuccessful) {
@@ -102,7 +116,6 @@ class AdminHomeFragment : Fragment(R.layout.fragment_admin_home) {
             }
         })
     }
-
 
     private fun showErrorToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

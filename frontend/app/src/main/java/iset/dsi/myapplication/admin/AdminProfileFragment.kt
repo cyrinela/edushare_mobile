@@ -7,10 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import iset.dsi.myapplication.LoginActivity
+import com.bumptech.glide.Glide
 import iset.dsi.myapplication.R
 import iset.dsi.myapplication.RetrofitClient
 import iset.dsi.myapplication.User
@@ -23,6 +24,7 @@ class AdminProfileFragment : Fragment() {
     private lateinit var fullnameTextView: TextView
     private lateinit var emailTextView: TextView
     private lateinit var editProfileButton: Button
+    private lateinit var avatarImageView: ImageView  // ImageView pour l'avatar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +34,9 @@ class AdminProfileFragment : Fragment() {
 
         // Initialisation des vues
         fullnameTextView = view.findViewById(R.id.adminNameTextView)
-        emailTextView = view.findViewById(R.id.adminEmailTextView)
+        emailTextView = view.findViewById(R.id.adminNameValueTextView)
         editProfileButton = view.findViewById(R.id.editProfileButton)
+        avatarImageView = view.findViewById(R.id.avatarImageView)  // Initialisation de l'ImageView
 
         // Récupérer l'ID administrateur depuis SharedPreferences
         val sharedPreferences = requireContext().getSharedPreferences("UserSession", Context.MODE_PRIVATE)
@@ -65,8 +68,15 @@ class AdminProfileFragment : Fragment() {
                     val user = response.body()
                     if (user != null) {
                         // Afficher les informations de l'utilisateur (administrateur inclus)
-                        fullnameTextView.text = user.fullname
-                        emailTextView.text = user.email
+                        fullnameTextView.text = "Nom : ${user.fullname}"
+                        emailTextView.text = "Email : ${user.email}"
+
+                        // Charger l'avatar de l'utilisateur avec Glide
+                        Glide.with(this@AdminProfileFragment)
+                            .load(R.drawable.user12)  // Utiliser l'image dans drawable
+                            .circleCrop()
+                            .into(avatarImageView)
+
                     } else {
                         Toast.makeText(requireContext(), "Utilisateur introuvable", Toast.LENGTH_LONG).show()
                     }

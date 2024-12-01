@@ -53,6 +53,7 @@ class AdminDashboardActivity : AppCompatActivity() {
 
             when (item.itemId) {
                 R.id.nav_home_admin -> selectedFragment = AdminHomeFragment()
+                R.id.nav_profile_admin -> selectedFragment = AdminProfileFragment()
                 R.id.nav_logout_admin -> {
                     logout()
                 }
@@ -75,7 +76,6 @@ class AdminDashboardActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_resources_admin -> selectedFragment = AdminCategoriesFragment()
                 R.id.nav_ressources_admin -> selectedFragment = AdminRessourcesFragment()
-                R.id.nav_profile_admin -> selectedFragment = AdminProfileFragment()
                 R.id.gs_users -> selectedFragment = AdminUsersFragment()
             }
 
