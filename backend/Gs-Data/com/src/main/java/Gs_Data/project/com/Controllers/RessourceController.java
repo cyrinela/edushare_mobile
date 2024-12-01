@@ -31,6 +31,12 @@ public class RessourceController {
     @Autowired
     private RessourceService ressourceService;
 
+    // Endpoint pour récupérer le nombre de ressources disponibles
+    @GetMapping("/total-resources")
+    public ResponseEntity<Long> getTotalResourcesCount() {
+        long totalResources = ressourceService.getTotalResourcesCount(); // Appelle le service
+        return ResponseEntity.ok(totalResources);
+    }
 
     // Méthode pour récupérer les ressources par catégorie
     @GetMapping("/category/{categoryId}")

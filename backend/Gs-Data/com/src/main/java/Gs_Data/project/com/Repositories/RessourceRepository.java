@@ -26,4 +26,6 @@ public interface RessourceRepository extends JpaRepository<Ressource, Long> {
     List<Ressource> findByCategorieId(int categorieId);
     List<Ressource> findByUserId(Long userId);
 
+    long count();
+
 }

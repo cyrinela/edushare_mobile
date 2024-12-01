@@ -60,5 +60,11 @@ public class CategorieController {
         }
         return ResponseEntity.status(404).body("Erreur lors de la mise à jour");
     }
-
+    // Endpoint pour récupérer le nombre de catégories disponibles
+    // Endpoint pour récupérer le nombre total de catégories
+    @GetMapping("/total-categories")
+    public ResponseEntity<Long> getTotalCategoriesCount() {
+        long totalCategories = categorieService.getTotalCategoriesCount(); // Appelle le service
+        return ResponseEntity.ok(totalCategories);
+    }
 }
