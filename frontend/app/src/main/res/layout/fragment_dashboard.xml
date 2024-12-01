@@ -33,7 +33,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/baseline_offline_share_24"
-                android:tint="@color/purple"
                 android:layout_marginEnd="16dp" />
 
             <TextView
@@ -65,18 +64,17 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/baseline_downloading_24"
-                android:tint="@color/purple"
                 android:layout_marginEnd="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ressources téléchargées :"
+                android:text="Ressources En attente :"
                 android:textSize="18sp"
                 android:layout_marginEnd="8dp" />
 
             <TextView
-                android:id="@+id/downloadedCount"
+                android:id="@+id/waitingCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -96,24 +94,57 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/baseline_favorite_24"
-                android:tint="@color/purple"
+                android:src="@drawable/ic_refuse"
                 android:layout_marginEnd="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Likes reçus :"
+                android:text="Ressources Refusés :"
                 android:textSize="18sp"
                 android:layout_marginEnd="8dp" />
 
             <TextView
-                android:id="@+id/likesCount"
+                android:id="@+id/refusedCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_accepte"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ressources Accepté :"
+                android:textSize="18sp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/acceptedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
+
+
+

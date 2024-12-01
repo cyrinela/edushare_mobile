@@ -54,8 +54,11 @@ public class RessourceService {
     public boolean Modify(Long id, Ressource ressource) {
         Ressource existingRessource = findById(id);
         if (existingRessource != null) {
-            // Vérifier si le statut a changé
-            boolean statusChanged = !existingRessource.getStatus().equals(ressource.getStatus());
+            // Normalisation du statut pour éviter les erreurs d'espace ou de casse
+            String newStatus = ressource.getStatus().trim().toLowerCase();
+            String existingStatus = existingRessource.getStatus().trim().toLowerCase();
+
+            boolean statusChanged = !existingStatus.equals(newStatus);
 
             // Vérifier si d'autres champs ont changé
             boolean otherFieldsChanged =
@@ -68,22 +71,17 @@ public class RessourceService {
             existingRessource.setNom(ressource.getNom());
             existingRessource.setDescription(ressource.getDescription());
             existingRessource.setCategorie(ressource.getCategorie());
-            existingRessource.setStatus(ressource.getStatus());
+            existingRessource.setStatus(newStatus);  // Sauvegarde du statut normalisé
 
             // Sauvegarder la ressource mise à jour
             ressourceRepository.save(existingRessource);
 
-            // Notifier si le statut a changé
+            // Notification si le statut a changé
             if (statusChanged) {
-                // Récupérer les informations utilisateur via Feign
-                Map<String, Object> userInfo = userFeignClient.getUserById(existingRessource.getUserId());
-                String userName = (String) userInfo.get("name");
-
-                // Créer une notification de statut modifié
                 String message = String.format(
                         "Votre ressource '%s' a été %s.",
                         existingRessource.getNom(),
-                        ressource.getStatus().equalsIgnoreCase("Accepté") ? "acceptée" : "refusée"
+                        newStatus.equals("accepté") ? "acceptée" : "refusée"
                 );
 
                 Notification notification = new Notification();
@@ -94,9 +92,8 @@ public class RessourceService {
                 notificationRepository.save(notification);
             }
 
-            // Notifier si d'autres champs ont changé
+            // Notification si d'autres champs ont changé
             if (otherFieldsChanged) {
-                // Créer une notification générique pour les autres changements
                 String message = String.format(
                         "Il y a un changement dans la ressource '%s'.",
                         existingRessource.getNom()
@@ -114,6 +111,7 @@ public class RessourceService {
         }
         return false;
     }
+
 
 
 

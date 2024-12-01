@@ -38,7 +38,7 @@ class AdminResourcesAdapter(
         holder.descriptionTextView.text = resource.description
 
         // Configurer le Spinner avec les statuts
-        val statuses = listOf("En attente", "Accepté", "Refusé")
+        val statuses = listOf("en attente", "accepté", "refusé")
         val adapter = android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_item, statuses)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         holder.statusSpinner.adapter = adapter
