@@ -38,4 +38,10 @@
 
     <color name="redCardColor">#D02525</color>
 
+
+    <color name="dark_gray">#666666</color>
+    <color name="light_gray">#D3D3D3</color>
+
+
+
 </resources>

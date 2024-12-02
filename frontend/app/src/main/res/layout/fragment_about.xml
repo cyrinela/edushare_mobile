@@ -1,18 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutFragment">
+    android:padding="16dp"
+    android:background="#F9F9F9">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About Us Fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"
-        android:textColor="@color/lavender"/>
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <!-- Image en haut -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="305dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="About Us Image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo22" />
+
+        <!-- Titre principal -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About Us"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EduShare is dedicated to simplifying resource sharing between students and educators. Our goal is to provide easy access to educational materials, empowering users to collaborate and grow together."
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:gravity="center_horizontal"
+            android:textColor="#666666"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Informations de contact -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_phone"
+                android:tint="#FF5722"
+                android:contentDescription="Phone Icon"
+                android:layout_marginEnd="8dp"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+216 23699055"
+                android:textSize="16sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_email"
+                android:contentDescription="Email Icon"
+                android:tint="#FF5722"
+                android:layout_marginEnd="8dp"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="edushare@gmail.com"
+                android:textSize="16sp"
+                android:tint="@color/purple"
+                android:textColor="#333333" />
+        </LinearLayout>
+
+        <!-- Boutons sociaux -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/facebook"
+                android:contentDescription="Facebook Icon"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/google"
+                android:contentDescription="Instagram Icon"
+                android:layout_marginEnd="16dp" />
+
+            <ImageView
+                android:id="@+id/share_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_share"
+                android:contentDescription="YouTube Icon"
+                android:tint="@color/colorPrimaryDark"
+                tools:ignore="UseAppTint" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
