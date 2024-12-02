@@ -101,7 +101,9 @@ class AdminRessourcesFragment : Fragment(R.layout.fragment_admin_ressources) {
     }
 
     private fun updateResourceStatus(resource: Resource, newStatus: String) {
-        val updatedResource = resource.copy(status = newStatus)
+        // Créer une nouvelle ressource avec le statut mis à jour, mais conserver le categorie_id
+        val updatedResource = resource.copy(status = newStatus, categorie_id = resource.categorie_id)
+
         RetrofitInstance.api.updateResource(resource.id!!, updatedResource).enqueue(object : Callback<Resource> {
             override fun onResponse(call: Call<Resource>, response: Response<Resource>) {
                 if (response.isSuccessful) {
@@ -112,8 +114,9 @@ class AdminRessourcesFragment : Fragment(R.layout.fragment_admin_ressources) {
             }
 
             override fun onFailure(call: Call<Resource>, t: Throwable) {
-                println("Erreur réseau : ${t.message}")
+                Toast.makeText(requireContext(), "Erreur réseau : ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
 }

@@ -62,18 +62,27 @@ public class RessourceService {
 
             // Vérifier si d'autres champs ont changé
             boolean otherFieldsChanged =
-                    !existingRessource.getNom().equals(ressource.getNom()) ||
-                            !existingRessource.getDescription().equals(ressource.getDescription()) ||
-                            (existingRessource.getCategorie() == null ? ressource.getCategorie() != null
-                                    : !existingRessource.getCategorie().equals(ressource.getCategorie()));
+                    (ressource.getNom() != null && !existingRessource.getNom().equals(ressource.getNom())) ||
+                            (ressource.getDescription() != null && !existingRessource.getDescription().equals(ressource.getDescription())) ||
+                            (ressource.getCategorie() != null && !existingRessource.getCategorie().equals(ressource.getCategorie()));
 
-            // Mise à jour des champs
-            existingRessource.setNom(ressource.getNom());
-            existingRessource.setDescription(ressource.getDescription());
-            existingRessource.setCategorie(ressource.getCategorie());
-            existingRessource.setStatus(newStatus);  // Sauvegarde du statut normalisé
+            // Mise à jour des champs uniquement si nécessaire
+            if (ressource.getNom() != null) {
+                existingRessource.setNom(ressource.getNom());
+            }
 
-            // Sauvegarder la ressource mise à jour
+            if (ressource.getDescription() != null) {
+                existingRessource.setDescription(ressource.getDescription());
+            }
+
+            if (ressource.getCategorie() != null) {
+                existingRessource.setCategorie(ressource.getCategorie());
+            }
+
+            // Toujours mettre à jour le statut
+            existingRessource.setStatus(newStatus);
+
+            // Sauvegarde de la ressource mise à jour
             ressourceRepository.save(existingRessource);
 
             // Notification si le statut a changé
@@ -111,7 +120,6 @@ public class RessourceService {
         }
         return false;
     }
-
 
 
 
