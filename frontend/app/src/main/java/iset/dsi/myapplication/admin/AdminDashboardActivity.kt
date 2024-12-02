@@ -125,4 +125,22 @@ class AdminDashboardActivity : AppCompatActivity() {
             }
         })
     }
+
+    // Gonfler le menu
+    override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)  // Gonfle le menu personnalisé
+        return true
+    }
+
+    // Gérer le clic sur les éléments du menu
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_item -> {
+                // Action à effectuer lorsque l'icône du menu est cliquée
+                Toast.makeText(this, "Menu item clicked", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
 }
