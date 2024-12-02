@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:elevation="4dp"
     android:radius="8dp">
@@ -54,7 +55,7 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_delete"
         android:contentDescription="Delete"
-        android:tint="@android:color/black"
+        app:tint="@android:color/black"
         android:clickable="true"
         android:layout_gravity="center" />
     </LinearLayout>
