@@ -17,22 +17,51 @@
         android:clickable="true"
         android:focusable="true"/>
 
-    <!-- Le reste de ton layout pour afficher les ressources -->
+    <!-- Titre avec la couleur violette claire et taille réduite -->
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mes Ressources"
-        android:textSize="24sp"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#03A9F4"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp" />
 
+    <!-- Barre de recherche -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
 
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Rechercher une ressource"
+            android:padding="8dp"
+            android:textSize="16sp"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rechercher"
+            android:textSize="14sp"
+        android:layout_marginLeft="8dp"
+        android:backgroundTint="@color/purple"
+        android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <!-- RecyclerView pour afficher les ressources -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resourceRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:padding="16dp"/>
 </LinearLayout>
