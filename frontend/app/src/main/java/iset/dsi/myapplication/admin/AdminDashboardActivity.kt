@@ -4,20 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import iset.dsi.myapplication.LoginActivity
 import iset.dsi.myapplication.R
 import iset.dsi.myapplication.RetrofitClient
 import iset.dsi.myapplication.SuccessResponse
-import iset.dsi.myapplication.admin.AdminCategoriesFragment
-import iset.dsi.myapplication.admin.AdminHomeFragment
-import iset.dsi.myapplication.admin.AdminProfileFragment
-import iset.dsi.myapplication.admin.AdminRessourcesFragment
-import iset.dsi.myapplication.admin.AdminUsersFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +35,10 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         // Configurer la Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)  // Affiche le bouton hamburger
+
+        // Afficher uniquement l'icône du menu hamburger personnalisé
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu) // Utilise ton icône personnalisée ici
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)  // Affiche uniquement l'icône hamburger
 
         // Bouton hamburger pour ouvrir le Drawer
         toolbar.setNavigationOnClickListener {
@@ -110,8 +108,6 @@ class AdminDashboardActivity : AppCompatActivity() {
                     editor.remove("USER_ID")
                     editor.apply()
 
-                    Toast.makeText(this@AdminDashboardActivity, "Déconnexion réussie", Toast.LENGTH_SHORT).show()
-
                     val intent = Intent(this@AdminDashboardActivity, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -124,23 +120,5 @@ class AdminDashboardActivity : AppCompatActivity() {
                 Toast.makeText(this@AdminDashboardActivity, "Erreur de connexion: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-    // Gonfler le menu
-    override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar, menu)  // Gonfle le menu personnalisé
-        return true
-    }
-
-    // Gérer le clic sur les éléments du menu
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_item -> {
-                // Action à effectuer lorsque l'icône du menu est cliquée
-                Toast.makeText(this, "Menu item clicked", Toast.LENGTH_SHORT).show()
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
     }
 }

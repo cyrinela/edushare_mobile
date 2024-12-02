@@ -10,15 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Toolbar avec une icône de menu -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:title="Admin Dashboard"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:menu="@menu/menu_toolbar"
-            tools:ignore="MissingConstraints"/>
-
+            tools:ignore="MissingConstraints" />
 
         <!-- FrameLayout pour les fragments -->
         <FrameLayout
@@ -40,9 +39,10 @@
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Navigation View (Menu Latéral) -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/sidebar_nav"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/menu_sidebar_admin"
@@ -50,5 +50,4 @@
         app:itemTextColor="@color/purple_200"
         app:itemIconTint="@color/colorAccent"
         app:itemBackground="@android:color/white" />
-
 </androidx.drawerlayout.widget.DrawerLayout>
