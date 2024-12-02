@@ -1,6 +1,7 @@
 package iset.dsi.myapplication
 
 import android.app.DownloadManager
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log  // Import nécessaire pour les logs
 import android.widget.ImageView
@@ -27,8 +28,10 @@ class AfficheRessourceActivity : AppCompatActivity() {
 
         // Ajoute l'action pour l'icône de retour
         backIcon.setOnClickListener {
-            // Cette ligne revient à l'activité précédente
-            onBackPressed()
+            // Démarre CategoriesActivity lorsqu'on clique sur l'icône de retour
+            val intent = Intent(this, CategoryFragment::class.java)
+            startActivity(intent)
+            finish() // Facultatif, pour fermer AfficheRessourceActivity
         }
 
         resourceRecyclerView = findViewById(R.id.resourceRecyclerView)
@@ -46,19 +49,17 @@ class AfficheRessourceActivity : AppCompatActivity() {
     private fun fetchResourcesByCategory(categoryId: Int) {
         val call = RetrofitInstance.api.getResourcesByCategory(categoryId)
         call.enqueue(object : Callback<List<Resource>> {
-            override fun onResponse(
-                call: Call<List<Resource>>,
-                response: Response<List<Resource>>
-            ) {
+            override fun onResponse(call: Call<List<Resource>>, response: Response<List<Resource>>) {
                 if (response.isSuccessful) {
-                    val resources = response.body() ?: emptyList()
+                    // Récupérez les ressources et filtrez par statut "Accepté"
+                    val resources = response.body()?.filter { it.status == "Accepté" } ?: emptyList()
                     if (resources.isNotEmpty()) {
                         resourceAdapter = AfficheResourceAdapter(resources)
                         resourceRecyclerView.adapter = resourceAdapter
                     } else {
                         showAlert(
                             "Aucune ressource trouvée",
-                            "Aucune ressource disponible pour cette catégorie."
+                            "Aucune ressource acceptée disponible pour cette catégorie."
                         )
                     }
                 } else {
@@ -73,6 +74,7 @@ class AfficheRessourceActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun showAlert(title: String, message: String) {
         val builder = android.app.AlertDialog.Builder(this)
