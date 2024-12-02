@@ -29,13 +29,13 @@ class AfficheRessourceActivity : AppCompatActivity() {
         searchEditText = findViewById(R.id.searchEditText) // Initialisation de l'EditText
         searchButton = findViewById(R.id.searchButton) // Initialisation du bouton de recherche
 
-        // Ajoute l'action pour l'icône de retour
+        // Redirige vers CategoriesActivity, pas un fragment
         backIcon.setOnClickListener {
-            // Démarre CategoriesActivity lorsqu'on clique sur l'icône de retour
             val intent = Intent(this, CategoryFragment::class.java)
             startActivity(intent)
             finish() // Facultatif, pour fermer AfficheRessourceActivity
         }
+
 
         // Configure le RecyclerView
         resourceRecyclerView = findViewById(R.id.resourceRecyclerView)
