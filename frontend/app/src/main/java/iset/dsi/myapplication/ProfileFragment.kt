@@ -1,4 +1,5 @@
 package iset.dsi.myapplication
+
 import iset.dsi.myapplication.admin.EditProfileActivity
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,13 +20,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ProfileFragment : Fragment() {
 
-    private val BASE_URL = "http://172.20.10.6:8085"//"http://172.20.10.6:8085" // Remplacez par votre URL backend
+    private val BASE_URL = "http://172.20.10.6:8085" // Remplacez par l'URL de votre backend
 
     private lateinit var fullnameTextView: TextView
     private lateinit var emailTextView: TextView
     private lateinit var editProfileButton: Button
 
-    private var userId: Long = -1L // Variable pour stocker l'ID de l'utilisateur
+    private var userId: Long = -1L // Variable pour l'ID de l'utilisateur
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(

@@ -197,81 +197,14 @@
             android:textColor="@color/mauve"
             android:fontFamily="sans-serif-medium" />
 
-        <!-- Liste des recommandations -->
-        <LinearLayout
+        <!-- WebView pour afficher des vidéos éducatives -->
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            tools:ignore="WebViewLayout" />
 
-            <!-- Carte de recommandation 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_background"
-                android:padding="16dp"
-                android:layout_marginTop="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recommandation : Apprendre à programmer"
-                    android:textSize="16sp"
-                    android:textColor="@color/textColorPrimary"
-                    android:fontFamily="sans-serif-medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Publié par: Jean"
-                    android:textSize="14sp"
-                    android:paddingTop="4dp"
-                    android:textColor="@color/textColorSecondary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Un cours qui vous apprend les bases de la programmation avec des exemples concrets."
-                    android:textSize="14sp"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/textColorPrimary" />
-            </LinearLayout>
-
-            <!-- Carte de recommandation 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_background"
-                android:padding="16dp"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Recommandation : Cours sur l'intelligence artificielle"
-                    android:textSize="16sp"
-                    android:textColor="@color/textColorPrimary"
-                    android:fontFamily="sans-serif-medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Publié par: Ali"
-                    android:textSize="14sp"
-                    android:paddingTop="4dp"
-                    android:textColor="@color/textColorSecondary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Découvrez l'IA et son impact sur notre société."
-                    android:textSize="14sp"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/textColorPrimary" />
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>
