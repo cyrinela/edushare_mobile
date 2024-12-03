@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="12dp"
     android:background="#F5F5F5">
 
     <LinearLayout
@@ -13,15 +13,15 @@
         android:gravity="center_horizontal"
         android:layout_marginBottom="16dp">
 
-        <!-- ImageView sans marge en haut -->
+        <!-- ImageView légèrement réduit -->
         <ImageView
             android:id="@+id/admin_logo"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:contentDescription="Admin Logo"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="30dp"
-            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitCenter"
             android:clipToOutline="true"
             android:outlineProvider="background" />
 
@@ -29,26 +29,27 @@
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bienvenue, Adminastrateur"
+            android:text="Bienvenue, Administrateur"
             android:textSize="24sp"
             android:textColor="@color/colorPrimary"
-            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp"
-            android:spacing="16dp">
+            android:layout_marginBottom="20dp">
 
+            <!-- CardView avec coins plus arrondis et ombre -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_users_active"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="12dp"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="16dp"
                 app:cardBackgroundColor="@color/lavender"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -57,11 +58,11 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:src="@drawable/ic_active_users"
                         android:contentDescription="Icone Utilisateurs"
                         android:layout_marginBottom="10dp"/>
@@ -79,18 +80,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Utilisateurs actifs"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textColor="#555555"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Répéter les mêmes améliorations pour les autres CardViews -->
+            <!-- CardView pour Ressources disponibles -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_resources_available"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="12dp"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="16dp"
                 app:cardBackgroundColor="@color/lavender2"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -99,11 +102,11 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:src="@drawable/ic_available_resources"
                         android:contentDescription="Icone Ressources"
                         android:layout_marginBottom="10dp"/>
@@ -121,18 +124,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ressources disponibles"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textColor="#555555"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- CardView pour Catégories disponibles -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_categories_available"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="12dp"
+                android:layout_marginBottom="12dp"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="16dp"
                 app:cardBackgroundColor="@color/purple_200"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -141,11 +145,11 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:src="@drawable/ic_categories2"
                         android:contentDescription="Icone Catégories"
                         android:layout_marginBottom="10dp"/>
@@ -163,13 +167,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Catégories disponibles"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textColor="#555555"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-
 
     </LinearLayout>
 </ScrollView>

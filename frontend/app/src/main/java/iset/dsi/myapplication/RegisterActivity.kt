@@ -51,12 +51,18 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.registerButton)
     }
 
-    // Méthode pour configurer le Spinner des rôles
+    // Méthode pour configurer le Spinner des rôles avec uniquement "STUDENT"
     private fun setupRoleSpinner() {
-        val roles = arrayOf("STUDENT", "ADMIN")
+        val roles = arrayOf("STUDENT")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         roleSpinner.adapter = adapter
+
+        // Désactivation du Spinner pour éviter toute interaction avec l'utilisateur
+        roleSpinner.isEnabled = false
+
+        // Définir "STUDENT" comme rôle sélectionné par défaut
+        roleSpinner.setSelection(0)  // L'index 0 correspond à "STUDENT"
     }
 
     // Gestion du clic sur le bouton d'inscription

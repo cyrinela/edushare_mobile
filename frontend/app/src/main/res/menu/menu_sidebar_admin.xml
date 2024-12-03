@@ -7,18 +7,20 @@
         <item
             android:id="@+id/nav_resources_admin"
             android:icon="@drawable/ic_categories"
-            android:title="Categories" />
+            android:title="Categories"
+            android:titleTextAppearance="@style/MenuTextStyle" /> <!-- Applique le style -->
 
         <item
             android:id="@+id/nav_ressources_admin"
             android:icon="@drawable/ic_resources"
-            android:title="Ressources" />
-
+            android:title="Ressources"
+            android:titleTextAppearance="@style/MenuTextStyle" /> <!-- Applique le style -->
 
         <item
             android:id="@+id/gs_users"
             android:icon="@drawable/ic_users"
-            android:title="Users" />
+            android:title="Users"
+            android:titleTextAppearance="@style/MenuTextStyle" /> <!-- Applique le style -->
 
     </group>
 

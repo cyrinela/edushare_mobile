@@ -1,13 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><resources>
-<!-- Style pour les titres -->
-<style name="TitleTextStyle">
-    <item name="android:textColor">#9694FF</item> <!-- Couleur violet -->
-    <item name="android:textStyle">bold</item> <!-- Gras -->
-</style>
+<resources>
+    <!-- Style pour les titres -->
+    <style name="TitleTextStyle">
+        <item name="android:textColor">#9694FF</item> <!-- Couleur violet -->
+        <item name="android:textStyle">bold</item> <!-- Gras -->
+    </style>
 
-<!-- Style pour les valeurs -->
-<style name="ValueTextStyle">
-    <item name="android:textColor">#000000</item> <!-- Couleur noire -->
-    <item name="android:textStyle">normal</item> <!-- Normal -->
-</style>
+    <!-- Style pour les valeurs -->
+    <style name="ValueTextStyle">
+        <item name="android:textColor">#000000</item> <!-- Couleur noire -->
+        <item name="android:textStyle">normal</item> <!-- Normal -->
+    </style>
+
+    <!-- Style spécifique pour les éléments de menu -->
+    <style name="MenuTextStyle">
+        <item name="android:textSize">18sp</item> <!-- Taille du texte plus grande -->
+        <item name="android:textColor">@color/mauve</item> <!-- Application de la couleur mauve -->
+    </style>
 </resources>
