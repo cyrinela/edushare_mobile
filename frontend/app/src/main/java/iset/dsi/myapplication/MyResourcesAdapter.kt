@@ -18,6 +18,7 @@ class MyResourcesAdapter(
     inner class ResourceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nomTextView: TextView = view.findViewById(R.id.resourceNom)
         val descriptionTextView: TextView = view.findViewById(R.id.resourceDescription)
+        val statusTextView: TextView = view.findViewById(R.id.resourceStatus)  // Ajout du status
         val editButton: Button = view.findViewById(R.id.editButton)
         val deleteButton: Button = view.findViewById(R.id.deleteButton)
     }
@@ -33,6 +34,8 @@ class MyResourcesAdapter(
         // Remplir les vues avec les données
         holder.nomTextView.text = resource.nom
         holder.descriptionTextView.text = resource.description
+        holder.statusTextView.text = resource.status  // Ajout de la liaison avec le status
+
 
         // Écouteur pour le bouton "Éditer"
         holder.editButton.setOnClickListener {
@@ -42,7 +45,6 @@ class MyResourcesAdapter(
         holder.deleteButton.setOnClickListener {
             onDelete(resource)
         }
-
 
     }
 
