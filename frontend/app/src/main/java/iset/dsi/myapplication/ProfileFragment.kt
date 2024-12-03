@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ProfileFragment : Fragment() {
 
-    private val BASE_URL = "http://172.20.10.6:8085"//"http://172.20.10.6:8085" // Remplacez par votre URL backend
+    private val BASE_URL = "http://192.168.35.34:8085"//"http://172.20.10.6:8085" // Remplacez par votre URL backend
 
     private lateinit var fullnameTextView: TextView
     private lateinit var emailTextView: TextView
