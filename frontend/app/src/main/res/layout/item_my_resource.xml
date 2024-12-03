@@ -20,8 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NomRessource"
+
             android:textSize="18sp"
-            android:textColor="#000000"
+            android:textColor="#FF3700B3"
             android:layout_marginBottom="4dp"
             android:maxLines="1"
             android:ellipsize="end"/>
@@ -38,26 +39,17 @@
             android:ellipsize="end"/>
 
         <TextView
-            android:id="@+id/categoryName"
+            android:id="@+id/resourceStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Catégorie"
+            android:text="Status de la ressource"
             android:textSize="14sp"
-            android:textColor="#666666"
+            android:textColor="#FF5722"
             android:layout_marginBottom="4dp"
             android:maxLines="1"
             android:ellipsize="end"/>
 
-        <TextView
-            android:id="@+id/fileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nom du fichier"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="4dp"
-            android:maxLines="1"
-            android:ellipsize="end"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +65,7 @@
             android:layout_height="wrap_content"
             android:text="Éditer"
             android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_button_blue"
+      android:backgroundTint="@color/teal_700"
             android:layout_marginBottom="8dp"
             android:minHeight="40dp" />
 
@@ -83,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="Supprimer"
             android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_button_purple"
+            android:backgroundTint="@color/redCardColor"
             android:minHeight="40dp" />
     </LinearLayout>
 

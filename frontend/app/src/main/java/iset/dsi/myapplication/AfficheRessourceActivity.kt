@@ -66,7 +66,7 @@ class AfficheRessourceActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Resource>>, response: Response<List<Resource>>) {
                 if (response.isSuccessful) {
                     // Filtre les ressources par statut "Accepté"
-                    val resources = response.body()?.filter { it.status == "Accepté" } ?: emptyList()
+                    val resources = response.body()?.filter { it.status == "accepté" } ?: emptyList()
                     if (resources.isNotEmpty()) {
                         resourceAdapter = AfficheResourceAdapter(resources)
                         resourceRecyclerView.adapter = resourceAdapter
