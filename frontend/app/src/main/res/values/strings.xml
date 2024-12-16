@@ -107,5 +107,7 @@ Add the maggi masala on to it
         <item>Refusé</item>
     </string-array>
 
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
 
 </resources>

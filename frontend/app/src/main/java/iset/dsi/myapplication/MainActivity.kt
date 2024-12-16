@@ -77,6 +77,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_myressource -> loadFragment(MyRessourcesFragment())
             R.id.nav_notifications -> loadFragment(NotificationsFragment())
             R.id.nav_about -> loadFragment(AboutFragment())
+            R.id.nav_likes -> {
+                val intent = Intent(this, FavoriteResourcesActivity::class.java)
+                startActivity(intent)
+            }
             R.id.nav_logout -> {
                 logout()  // Appel de la fonction de déconnexion
             }

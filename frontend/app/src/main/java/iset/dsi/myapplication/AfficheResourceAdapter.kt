@@ -1,20 +1,16 @@
 package iset.dsi.myapplication
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import okhttp3.ResponseBody
@@ -24,7 +20,6 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-
 class AfficheResourceAdapter(private val resources: List<Resource>) :
     RecyclerView.Adapter<AfficheResourceAdapter.ResourceViewHolder>() {
 
@@ -44,14 +39,25 @@ class AfficheResourceAdapter(private val resources: List<Resource>) :
         private val resourceNameTextView: TextView = itemView.findViewById(R.id.categoryName)
         private val resourceDescriptionTextView: TextView = itemView.findViewById(R.id.categoryDescription)
         private val downloadButton: Button = itemView.findViewById(R.id.downloadButton)
+        private val likeButton: ImageView = itemView.findViewById(R.id.heartIcon)
+     //   private val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton) // Icône pour supprimer
 
         fun bind(resource: Resource) {
-            resourceNameTextView.text = "Nom Ressource: ${resource.nom}"
+            resourceNameTextView.text = "Ressource name: ${resource.nom}"
             resourceDescriptionTextView.text = "Description: ${resource.description}"
 
+            // Clic pour télécharger
             downloadButton.setOnClickListener {
                 fetchResourceMetaDataAndDownload(resource.id)
             }
+
+            // Clic pour ajouter aux favoris
+            likeButton.setOnClickListener {
+                val favoritesDatabaseHelper = FavoritesDatabaseHelper(itemView.context)
+                favoritesDatabaseHelper.addFavorite(resource)
+                Toast.makeText(itemView.context, "Ressource ajoutée aux favoris", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         private fun fetchResourceMetaDataAndDownload(resourceId: Int?) {
