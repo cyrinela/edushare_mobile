@@ -47,7 +47,7 @@ class AfficheRessourceActivity : AppCompatActivity() {
             if (query.isNotEmpty()) {
                 searchResources(query)
             } else {
-                Toast.makeText(this, "Veuillez entrer une recherche", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter recherche", Toast.LENGTH_SHORT).show()
             }
         }
 

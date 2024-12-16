@@ -1,40 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <!-- Affichage du nom de la catégorie avec "Nom: " -->
-        <TextView
-            android:id="@+id/categoryName"
-            android:layout_width="wrap_content"
+            <!-- Icône cœur en haut à droite -->
+            <ImageView
+                android:id="@+id/heartIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:contentDescription="Icône cœur"
+                android:src="@drawable/ic_heart"
+                app:tint="@android:color/holo_red_dark" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nom: Category Name"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:layout_below="@id/deleteButton"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            tools:ignore="NotSibling">
 
-        <!-- Affichage de la description avec "Description: " -->
-        <TextView
-            android:id="@+id/categoryDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description: Category Description"
-            android:textSize="14sp"/>
+            <!-- Affichage du nom de la catégorie avec "Nom: " -->
+            <TextView
+                android:id="@+id/categoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom: Category Name"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/downloadButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Télécharger" />
+            <!-- Affichage de la description avec "Description: " -->
+            <TextView
+                android:id="@+id/categoryDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description: Category Description"
+                android:textSize="14sp" />
 
-    </LinearLayout>
+            <!-- Bouton Télécharger -->
+            <Button
+                android:id="@+id/downloadButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Télécharger" />
+        </LinearLayout>
+
 </androidx.cardview.widget.CardView>

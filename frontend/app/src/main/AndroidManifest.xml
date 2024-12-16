@@ -27,6 +27,9 @@
         <activity
             android:name="AfficheRessourceActivity"
             android:exported="true" />
+        <activity
+            android:name="FavoriteResourcesActivity"
+            android:exported="true" />
         <activity android:name=".admin.EditProfileActivity" />
         <activity
             android:name=".MainActivity"

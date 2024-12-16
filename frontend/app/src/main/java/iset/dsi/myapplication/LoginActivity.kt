@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null) {
-                        Toast.makeText(this@LoginActivity, "Connexion réussie, ID utilisateur : ${loginResponse.userId}", Toast.LENGTH_LONG).show()
+                     //   Toast.makeText(this@LoginActivity, "Connexion réussie, ID utilisateur : ${loginResponse.userId}", Toast.LENGTH_LONG).show()
                         fetchUserByEmail(email)
                     } else {
                         Toast.makeText(this@LoginActivity, "Réponse vide", Toast.LENGTH_LONG).show()

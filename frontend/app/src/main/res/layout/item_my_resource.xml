@@ -19,7 +19,7 @@
             android:id="@+id/resourceNom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NomRessource"
+            android:text="RessourceName"
 
             android:textSize="18sp"
             android:textColor="#FF3700B3"
