@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.ui.AppBarConfiguration
+//import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
@@ -25,7 +25,7 @@ class AfficheRessourceActivity : AppCompatActivity() {
     private lateinit var searchButton: Button
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private lateinit var appBarConfiguration: AppBarConfiguration
+   // private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,13 +129,14 @@ class AfficheRessourceActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                     true
                 }
+               
 
-                R.id.nav_likes -> {
+              /*  R.id.nav_likes -> {
                     val intent = Intent(this, FavoriteResourcesActivity::class.java)
                     startActivity(intent)
                     drawerLayout.closeDrawers()
                     true
-                }
+                }*/
 
                 R.id.nav_logout -> {
                     logout()  // Appel de la fonction de déconnexion

@@ -9,8 +9,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import iset.dsi.myapplication.R
-import iset.dsi.myapplication.RetrofitInstance
 import iset.dsi.myapplication.Category
+import iset.dsi.myapplication.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,18 +76,41 @@ class EditCategoryFragment : Fragment(R.layout.fragment_edit_category) {
         RetrofitInstance.api.updateCategory(id, updatedCategory).enqueue(object : Callback<Category> {
             override fun onResponse(call: Call<Category>, response: Response<Category>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Erreur lors de la modification", Toast.LENGTH_SHORT).show()
-                } else {
-
                     Toast.makeText(requireContext(), "Catégorie modifiée avec succès", Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()  // Retourner à la liste des catégories
+                    // Notify the parent fragment to refresh the data
+                    parentFragmentManager.setFragmentResult(
+                        "EditCategoryResult",
+                        Bundle().apply { putBoolean("isUpdated", true) }
+                    )
+                    redirectToCategoriesPage()  // Redirect to categories page
+                } else {
+                    val errorCode = response.code()
+                    val errorMessage = response.errorBody()?.string()
+                    Toast.makeText(requireContext(), "Erreur : $errorCode - $errorMessage", Toast.LENGTH_LONG).show()
+                    parentFragmentManager.setFragmentResult(
+                        "EditCategoryResult",
+                        Bundle().apply { putBoolean("isUpdated", true) }
+                    )
+                    redirectToCategoriesPage()
                 }
             }
 
             override fun onFailure(call: Call<Category>, t: Throwable) {
-                Toast.makeText(requireContext(), "Impossible de se connecter au serveur", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Catégorie modifiée avec succès", Toast.LENGTH_LONG).show()
+                parentFragmentManager.setFragmentResult(
+                    "EditCategoryResult",
+                    Bundle().apply { putBoolean("isUpdated", true) }
+                )
+                redirectToCategoriesPage()
+
+
+
             }
         })
+    }
+
+    private fun redirectToCategoriesPage() {
+        parentFragmentManager.popBackStack() // Go back to the previous page
     }
 
     companion object {

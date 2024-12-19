@@ -35,6 +35,14 @@ class AdminCategoriesFragment : Fragment(R.layout.fragment_admin_categories) {
             openAddCategoryFragment()
         }
 
+        // Set up a result listener for updates
+        parentFragmentManager.setFragmentResultListener("AddCategoryResult", this) { _, bundle ->
+            val isUpdated = bundle.getBoolean("isUpdated", false)
+            if (isUpdated) {
+                fetchCategories() // Refresh the list after adding a new category
+            }
+        }
+
         // Charger les catégories
         fetchCategories()
     }
@@ -79,35 +87,28 @@ class AdminCategoriesFragment : Fragment(R.layout.fragment_admin_categories) {
     }
 
     private fun deleteCategory(categoryId: Int) {
-        // Affichage de l'AlertDialog pour confirmer la suppression
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Voulez-vous vraiment supprimer cette catégorie ?")
             .setPositiveButton("Oui") { _, _ ->
-                // Si l'utilisateur confirme, procéder à la suppression avec Retrofit
                 RetrofitInstance.api.deleteCategory(categoryId).enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
-                            // La catégorie a été supprimée avec succès
                             Toast.makeText(requireContext(), "Catégorie supprimée", Toast.LENGTH_SHORT).show()
-                            // Rafraîchir la liste des catégories après suppression
                             fetchCategories()
                         } else {
-                            // Erreur lors de la suppression
                             Toast.makeText(requireContext(), "Erreur lors de la suppression", Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
-                        // Afficher un message d'erreur en cas de problème de connexion
                         Toast.makeText(requireContext(), "Impossible de se connecter au serveur", Toast.LENGTH_SHORT).show()
                     }
                 })
             }
-            .setNegativeButton("Non", null)  // L'utilisateur annule la suppression
+            .setNegativeButton("Non", null)
             .create()
             .show()
     }
-
 
     private fun openAddCategoryFragment() {
         val fragment = parentFragmentManager.findFragmentByTag("AddCategoryFragment")
@@ -118,5 +119,4 @@ class AdminCategoriesFragment : Fragment(R.layout.fragment_admin_categories) {
                 .commit()
         }
     }
-
 }

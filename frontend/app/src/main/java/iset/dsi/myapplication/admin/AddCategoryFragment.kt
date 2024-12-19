@@ -44,7 +44,15 @@ class AddCategoryFragment : Fragment(R.layout.fragment_add_category) {
             override fun onResponse(call: Call<Category>, response: Response<Category>) {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Catégorie ajoutée avec succès", Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack() // Retour à la liste
+
+                    // Notify AdminCategoriesFragment of the update
+                    parentFragmentManager.setFragmentResult(
+                        "AddCategoryResult",
+                        Bundle().apply { putBoolean("isUpdated", true) }
+                    )
+
+                    // Close the AddCategoryFragment
+                    parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(requireContext(), "Erreur lors de l'ajout de la catégorie", Toast.LENGTH_SHORT).show()
                 }
